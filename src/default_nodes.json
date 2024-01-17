@@ -1,0 +1,60 @@
+{
+  "nodes": [
+    {
+      "name": "第一节课上课铃",
+      "start_time": "8.00",
+      "mp3": "ringning.mp3",
+      "note": null,
+      "color": null
+    },
+    {
+      "name": "第一节课下课铃",
+      "start_time": "8.45",
+      "mp3": "ringning.mp3",
+      "note": "下课十分钟",
+      "color": null
+    },
+    {
+      "name": "第2节课上课铃",
+      "start_time": "9.00",
+      "mp3": "ringning.mp3",
+      "note": null,
+      "color": null
+    },
+    {
+      "name": "第2节课下课铃",
+      "start_time": "9.45",
+      "mp3": "ringning.mp3",
+      "note": "下课十分钟",
+      "color": null
+    },
+    {
+      "name": "第3节课上课铃",
+      "start_time": "10.00",
+      "mp3": "ringning.mp3",
+      "note": null,
+      "color": null
+    },
+    {
+      "name": "第3节课下课铃",
+      "start_time": "10.45",
+      "mp3": "ringning.mp3",
+      "note": "下课十分钟",
+      "color": null
+    },
+    {
+      "name": "第4节课上课铃",
+      "start_time": "11.00",
+      "mp3": "ringning.mp3",
+      "note": null,
+      "color": null
+    },
+    {
+      "name": "第4节课下课铃",
+      "start_time": "10.45",
+      "mp3": "ringning.mp3",
+      "note": "下课十分钟",
+      "color": null
+    }
+  ]
+}

@@ -36,3 +36,40 @@
     transform: rotate(360deg);
   }
 }
+
+/* App.css */
+.headerStyle {
+  text-align: center;
+  color: #fff;
+  height: 64px;
+  padding-inline: 48px;
+  line-height: 64px;
+  background-color: #54ace7;
+}
+
+.contentStyle {
+  text-align: center;
+  min-height: 120px;
+  line-height: 120px;
+  color: hwb(0 0% 100%);
+  background-color: hsl(0, 0%, 100%);
+}
+
+.siderStyle {
+  text-align: center;
+  background-color: #96ccf0 !important;
+  padding: 40px;
+}
+
+.footerStyle {
+  text-align: center;
+  color: #ffffff;
+  background-color: #54ace7;
+}
+
+.layoutStyle {
+  border-radius: 8px;
+  overflow: hidden;
+  width: calc(100% - 8px);
+  max-width: calc(100% - 8px);
+}
