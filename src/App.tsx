@@ -1,60 +1,71 @@
 // src/App.tsx
 import { Flex, Layout } from "antd";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
-import Clock from "./Clock";
-import { NodeProps } from "./Node";
+import SoundPlayer from "./SoundPlayer";
 import Timeline from "./Timeline";
-import default_nodes from "./default_nodes.json";
+
+import { NodeProps, get_default_nodes, next_node } from "./Node";
 
 const { Header, Footer, Sider, Content } = Layout;
 
-const nodes: NodeProps[] = [
-  // Add your nodes here
-];
-
-// function playMusic()
+type AppState = {
+  soundPlayerRef: React.RefObject<SoundPlayer>;
+  nodes: NodeProps[];
+  nextNode: NodeProps | null;
+};
 
 const App: React.FC = () => {
-  const [nextNode, setNextNode] = useState<NodeProps>();
-
-  const [currentTime, setCurrentTime] = useState<string>(
-    new Date().toLocaleTimeString()
-  );
-
-  const audioRef = useRef(new Audio());
-
-  if (nodes.length === 0) {
-    const initialNodes = [...default_nodes.nodes];
-    nodes.push(...initialNodes);
-  }
+  const soundPlayerRef = useRef<SoundPlayer>(null);
+  const [currentTime, setCurrentTime] = useState<string>("");
+  const [state, setState] = useState<AppState>({
+    soundPlayerRef,
+    nodes: [],
+    nextNode: null,
+  });
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const newTime = new Date().toLocaleTimeString(undefined, {
+    const updateTime = () => {
+      const current = new Date().toLocaleTimeString(undefined, {
+        hour: "2-digit",
+        minute: "2-digit",
         hour12: false,
       });
-      setCurrentTime(newTime);
+      setCurrentTime("当前时间: " + current);
+    };
 
-      // 判断是否到达下一个节点的开始时间
-      if (nextNode && newTime >= nextNode.start_time) {
-        // 触发播放音乐的方法
-        audioRef.current.pause();
-        audioRef.current.src = nextNode.mp3 || "src/default.mp3";
-        audioRef.current.play();
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
 
-        // 找到比 nextNode.start_time 更大的一点的时间的节点作为 nextNode
-        const nextNodeIndex = nodes.findIndex(
-          (node) => node.start_time > nextNode.start_time
-        );
-        if (nextNodeIndex !== -1) {
-          setNextNode(nodes[nextNodeIndex]);
-        }
-      }
-    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
-    return () => clearInterval(interval);
-  }, [nextNode, nodes]);
+  useEffect(() => {
+    const findNextNode = () => {
+      const nodes = get_default_nodes();
+      let closestNode = next_node(nodes);
+      setState((prev) => ({ ...prev, nextNode: closestNode }));
+      console.log("closestNode", closestNode);
+    };
+
+    findNextNode();
+  }, []);
+
+  const playSoundInSoundPlayer = () => {
+    if (soundPlayerRef.current) {
+      // soundPlayerRef.current.playSound("回復.mp3", 3);
+      // soundPlayerRef.current.playSound("default.mp3", 3);
+      soundPlayerRef.current.playSound(state.nextNode?.mp3?.toString(), 3);
+    }
+  };
+
+  const stopSoundInSoundPlayer = () => {
+    if (soundPlayerRef.current) {
+      soundPlayerRef.current.stopSound();
+    }
+  };
 
   return (
     <Flex gap="large" wrap="wrap">
@@ -63,17 +74,34 @@ const App: React.FC = () => {
         <Layout>
           <Sider width="25%" className="siderStyle">
             <div>
-              <Timeline nodes={nodes} />
+              <Timeline nodes={get_default_nodes()} />
             </div>
           </Sider>
           <Content className="contentStyle">
-            <div>{currentTime}</div>
-            {nextNode && (
+            <div>
+              <h1>在校模拟器</h1>
+              {/* <button onClick={playSoundInSoundPlayer}>Play SoundPlayer</button> */}
+              {/* <button onClick={stopSoundInSoundPlayer}>Stop SoundPlayer</button> */}
+              <SoundPlayer
+                ref={soundPlayerRef}
+                audioSrc="default.mp3"
+                playCount={3}
+              />
+            </div>
+            <div>
+              <h1>{currentTime}</h1>
+            </div>
+            <div>
+              <button onClick={playSoundInSoundPlayer}>试播铃声</button>
+              <button onClick={stopSoundInSoundPlayer}>停止铃声</button>
+            </div>
+            {state.nextNode && (
               <div>
-                <div>时间: {nextNode.name} </div>
-                <div>时间: {nextNode.start_time} </div>
-                <div>播放: {nextNode.mp3 || "default.mp3"} </div>
-                <div>描述: {nextNode.note} </div>
+                <div>下一个声音事件: {state.nextNode.name} </div>
+                {/* <div>事件名称: {state.nextNode.name}</div> */}
+                <div>开始时间: {state.nextNode.start_time}</div>
+                <div>播放声音: {state.nextNode.mp3}</div>
+                <div>事件描述: {state.nextNode.note}</div>
               </div>
             )}
           </Content>
