@@ -67,3 +67,10 @@ export function next_node(nodes: NodeProps[]) {
   console.log("next_node", ret_node);
   return ret_node;
 }
+
+export function check_node(now: Date, node: NodeProps) {
+  if (_convertTimeStringToDate(node.start_time).getTime() < now.getTime()) {
+    return true;
+  }
+  return false;
+}
