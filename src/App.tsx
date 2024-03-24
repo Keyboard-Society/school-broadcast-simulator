@@ -32,11 +32,14 @@ const App: React.FC = () => {
 
   const findNextNode = () => {
     const closestNode = next_node(state.nodes);
-    setState((prev) => ({ ...prev, nextNode: closestNode }));
-    console.log("closestNode", closestNode);
+    setState((prev) => {
+      return { ...prev, nextNode: closestNode };
+    });
+    console.log("closestNode", state.nextNode);
+    return closestNode;
   };
 
-  const updateTime = () => {
+  const updateTime = (interval: NodeJS.Timeout) => {
     const now = new Date();
     const current = now.toLocaleTimeString(undefined, {
       hour: "2-digit",
@@ -46,16 +49,18 @@ const App: React.FC = () => {
     });
     setCurrentTime("当前时间: " + current);
     if (check_node(now, state.nextNode)) {
+      clearInterval(interval); // 停止定时器
       console.log("开始事件", state.nextNode);
       playSoundInSoundPlayer();
       findNextNode();
     }
   };
-  useEffect(() => {
-    updateTime();
-    // 每隔 1000 毫秒（即 1 秒）执行一次 updateTime 函数
-    const interval = setInterval(updateTime, 1000);
 
+  useEffect(() => {
+    // 每隔 1000 毫秒（即 1 秒）执行一次 updateTime 函数
+    const interval = setInterval(() => {
+      updateTime(interval);
+    }, 1000);
     return () => {
       clearInterval(interval);
     };
@@ -67,7 +72,7 @@ const App: React.FC = () => {
 
   const playSoundInSoundPlayer = () => {
     if (soundPlayerRef.current) {
-      soundPlayerRef.current.playSound(state.nextNode?.mp3?.toString(), 3);
+      soundPlayerRef.current.playSound(state.nextNode?.mp3?.toString(), 1);
     }
   };
 
