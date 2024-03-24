@@ -39,6 +39,16 @@ export function get_default_nodes() {
     if (!node.mp3) {
       node.mp3 = "default.mp3";
     }
+    if (node.name === "test") {
+      const currentTime = new Date();
+      currentTime.setMinutes(currentTime.getMinutes() + 1);
+      node.start_time = currentTime.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      });
+      console.log("test node set ", node);
+    }
     return node;
   });
 
@@ -47,7 +57,7 @@ export function get_default_nodes() {
 }
 
 export function next_node(nodes: NodeProps[]) {
-  let ret_node = null;
+  let ret_node = nodes[0];
   const current_time = new Date();
   for (const node of nodes) {
     if (
@@ -57,11 +67,6 @@ export function next_node(nodes: NodeProps[]) {
       ret_node = node;
       break;
     }
-  }
-
-  // If no node is found, return the first node
-  if (!ret_node) {
-    ret_node = nodes[0];
   }
 
   console.log("next_node", ret_node);

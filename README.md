@@ -1,6 +1,20 @@
-# Getting Started with Create React App
+# school broadcast simulator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## TODO
+
+- [ ] 显示作息表名称
+  - [ ] 显示备注
+- [ ] 放学倒计时
+- [ ] 休息倒计时
+- [ ] 时间线标记
+- [ ] 下载配置与上传配置
+  - [ ] 表明是利用缓存
+- [ ] 眼保健操音乐
+- [ ] 课间操音乐
+- [ ] 音乐用 URL 测试
+- [ ] 备注增加打工人注释
 
 ## Available Scripts
 

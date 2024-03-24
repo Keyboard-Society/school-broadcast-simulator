@@ -36,23 +36,22 @@ const App: React.FC = () => {
     console.log("closestNode", closestNode);
   };
 
+  const updateTime = () => {
+    const now = new Date();
+    const current = now.toLocaleTimeString(undefined, {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+    setCurrentTime("当前时间: " + current);
+    if (check_node(now, state.nextNode)) {
+      console.log("开始事件", state.nextNode);
+      playSoundInSoundPlayer();
+      findNextNode();
+    }
+  };
   useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const current = now.toLocaleTimeString(undefined, {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      });
-      setCurrentTime("当前时间: " + current);
-      if (check_node(now, state.nextNode)) {
-        console.log("开始事件", state.nextNode);
-        playSoundInSoundPlayer();
-        findNextNode();
-      }
-    };
-
     updateTime();
     // 每隔 1000 毫秒（即 1 秒）执行一次 updateTime 函数
     const interval = setInterval(updateTime, 1000);
