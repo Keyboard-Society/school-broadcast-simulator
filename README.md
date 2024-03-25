@@ -1,6 +1,7 @@
 # school broadcast simulator
 
 - This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- design by [antd](https://ant-design.antgroup.com/)
 
 ## TODO
 
