@@ -4,7 +4,6 @@ import { NodeProps } from "./Node";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Timeline } from "antd";
 
-import Clock from "./Clock";
 
 interface Item {
   children?: string;

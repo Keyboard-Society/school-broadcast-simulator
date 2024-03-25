@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import default_nodes_data from "./default_nodes.json";
+import { getNowString } from "./Clock";
 
 export interface NodeProps {
   start_time: string;
@@ -10,6 +11,13 @@ export interface NodeProps {
   note?: string | null;
   color?: string | null;
 }
+
+export const defaultNode: NodeProps = {
+  start_time: "00:00",
+  name: "默认节点",
+  mp3: "default.mp3",
+  note: "请点击开始按钮",
+};
 
 function _convertTimeStringToDate(timeString: string) {
   // Get the current date
@@ -68,7 +76,6 @@ export function next_node(nodes: NodeProps[]) {
       break;
     }
   }
-
   console.log("next_node", ret_node);
   return ret_node;
 }

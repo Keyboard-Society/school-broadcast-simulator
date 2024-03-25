@@ -1,78 +1,85 @@
 // src/App.tsx
 
-import { Flex, Layout, Button, Card, Space } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import { Flex, Layout, Button, Card } from "antd";
+import React, { useRef, useState } from "react";
 import "./App.css";
 import SoundPlayer from "./SoundPlayer";
 import Timeline from "./Timeline";
 
-import { NodeProps, check_node, get_default_nodes, next_node } from "./Node";
-import { DataSourceItemObject } from "antd/es/auto-complete";
+import {
+  NodeProps,
+  check_node,
+  defaultNode,
+  get_default_nodes,
+  next_node,
+} from "./Node";
+import { getNow, getNowString } from "./Clock";
 
 const { Header, Footer, Sider, Content } = Layout;
 
 type AppState = {
   soundPlayerRef: React.RefObject<SoundPlayer>;
   nodes: NodeProps[];
-  nextNode: NodeProps;
 };
 
 const App: React.FC = () => {
   const soundPlayerRef = useRef<SoundPlayer>(null);
-  const [currentTime, setCurrentTime] = useState<string>("");
-  const [state, setState] = useState<AppState>(() => {
+  const [currentTime, setCurrentTime] = useState<string>(
+    "当前时间: " + getNowString(getNow())
+  );
+  const [state] = useState<AppState>(() => {
     const nodes = get_default_nodes();
-    const closestNode = next_node(nodes);
     return {
       soundPlayerRef,
       nodes,
-      nextNode: closestNode,
     };
   });
+  const nextNodeSaver = useRef(defaultNode);
+  const startButtonRef = useRef<HTMLButtonElement>(null);
 
   const findNextNode = () => {
-    const closestNode = next_node(state.nodes);
-    setState((prev) => {
-      return { ...prev, nextNode: closestNode };
-    });
-    console.log("closestNode", state.nextNode);
-    return closestNode;
+    var closestNode2 = next_node(state.nodes);
+    nextNodeSaver.current = closestNode2;
+    console.log("nextNodeSaver.current ", nextNodeSaver.current);
+    return closestNode2;
   };
 
-  const updateTime = (interval: NodeJS.Timeout) => {
-    const now = new Date();
-    const current = now.toLocaleTimeString(undefined, {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    });
-    setCurrentTime("当前时间: " + current);
-    if (check_node(now, state.nextNode)) {
-      clearInterval(interval); // 停止定时器
-      console.log("开始事件", state.nextNode);
+  const startSystem = () => {
+    if (startButtonRef.current) {
+      if (startButtonRef.current.innerText == "已开始") {
+        console.log("已点过按钮，不能重复点击");
+        return;
+      }
+      startButtonRef.current.innerText = "已开始";
+      startButtonRef.current.disabled = true;
+      startButtonRef.current.removeAttribute("danger");
+    }
+    findNextNode();
+    // 每隔 1000 毫秒（即 1 秒）执行一次 updateTime 函数
+    const interval = setInterval(() => {
+      updateTime();
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  };
+
+  const updateTime = () => {
+    const now = getNow();
+    setCurrentTime("当前时间: " + getNowString(now));
+    if (check_node(now, nextNodeSaver.current)) {
+      console.log("开始事件", nextNodeSaver.current);
       playSoundInSoundPlayer();
       findNextNode();
     }
   };
 
-  useEffect(() => {
-    // 每隔 1000 毫秒（即 1 秒）执行一次 updateTime 函数
-    const interval = setInterval(() => {
-      updateTime(interval);
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  useEffect(() => {
-    findNextNode();
-  }, [state.nodes]);
-
   const playSoundInSoundPlayer = () => {
     if (soundPlayerRef.current) {
-      soundPlayerRef.current.playSound(state.nextNode?.mp3?.toString(), 1);
+      soundPlayerRef.current.playSound(
+        nextNodeSaver.current?.mp3?.toString(),
+        1
+      );
     }
   };
 
@@ -95,6 +102,7 @@ const App: React.FC = () => {
           <Content className="contentStyle">
             <div>
               <h1>在校模拟器</h1>
+
               <SoundPlayer
                 ref={soundPlayerRef}
                 audioSrc="default.mp3"
@@ -104,21 +112,36 @@ const App: React.FC = () => {
             <div>
               <h1>{currentTime}</h1>
             </div>
-
             <div>
-              <Card title={"next: " + state.nextNode.name}>
-                <p>事件名称: {state.nextNode.name}</p>
-                <p>开始时间: {state.nextNode.start_time}</p>
+              <Button
+                ref={startButtonRef}
+                type="primary"
+                danger
+                onClick={startSystem}
+              >
+                开始
+              </Button>
+            </div>
+            <div>
+              <Card title={"next: " + nextNodeSaver.current.name}>
+                <p>事件名称: {nextNodeSaver.current.name}</p>
+                <p>开始时间: {nextNodeSaver.current.start_time}</p>
                 <div>
-                  <p>播放声音: {state.nextNode.mp3}</p>
+                  <p>播放声音: {nextNodeSaver.current.mp3}</p>
                   <div>
-                    <Button type="primary" onClick={playSoundInSoundPlayer}>
+                    <Button
+                      id="startButton"
+                      type="primary"
+                      onClick={playSoundInSoundPlayer}
+                    >
                       试播铃声
                     </Button>
                     <Button onClick={stopSoundInSoundPlayer}>停止铃声</Button>
                   </div>
                 </div>
-                {state.nextNode.note && <p>事件描述: {state.nextNode.note}</p>}
+                {nextNodeSaver.current.note && (
+                  <p>事件描述: {nextNodeSaver.current.note}</p>
+                )}
               </Card>
             </div>
           </Content>
