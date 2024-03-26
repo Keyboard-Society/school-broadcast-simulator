@@ -1,43 +1,43 @@
 {
   "name": "夏季作息时间表",
-  "node": "(5月1日至9月30日执行)",
+  "describe": "(5月1日至9月30日执行)",
   "end_time": "18:30",
   "nodes": [
     {
       "name": "起床",
-      "start_time": "6:10",
+      "start_time": "06:10",
       "mp3": "default.mp3",
       "note": "起床 开始啦",
       "color": null
     },
     {
       "name": "早自习 预铃",
-      "start_time": "7:30",
+      "start_time": "07:30",
       "mp3": "default.mp3",
       "note": "早自习 预铃 开始啦",
       "color": null
     },
-    { "name": "早自习 开始", "start_time": "7:40" },
-    { "name": "早自习 结束", "start_time": "8:00" },
+    { "name": "早自习 开始", "start_time": "07:40" },
+    { "name": "早自习 结束", "start_time": "08:00" },
     {
       "name": "第一节课 预铃",
-      "start_time": "8:03",
+      "start_time": "08:03",
       "mp3": "default.mp3",
       "note": "第一节课 预铃 开始啦",
       "color": null
     },
-    { "name": "第一节课 开始", "start_time": "8:05" },
-    { "name": "第一节课 结束", "start_time": "8:50" },
+    { "name": "第一节课 开始", "start_time": "08:05" },
+    { "name": "第一节课 结束", "start_time": "08:50" },
     {
       "name": "第二节课 预铃",
-      "start_time": "8:58",
+      "start_time": "08:58",
       "mp3": "default.mp3",
       "note": "第二节课 预铃 开始啦",
       "color": null
     },
-    { "name": "第二节课 开始", "start_time": "9:00" },
-    { "name": "第二节课 结束", "start_time": "9:45" },
-    { "name": "大课间 开始", "start_time": "9:45" },
+    { "name": "第二节课 开始", "start_time": "09:00" },
+    { "name": "第二节课 结束", "start_time": "09:45" },
+    { "name": "大课间 开始", "start_time": "09:45" },
     { "name": "大课间 结束", "start_time": "10:15" },
     {
       "name": "第三节课 预铃",
@@ -55,7 +55,12 @@
       "note": "眼保键操 预铃 开始啦",
       "color": null
     },
-    { "name": "眼保键操 开始", "start_time": "11:10", "mp3": "眼保健操.mp3" },
+    {
+      "name": "眼保键操 开始",
+      "start_time": "11:10",
+      "mp3": "眼保健操.mp3",
+      "note": "打工人也要保护好眼睛哦"
+    },
     { "name": "眼保键操 结束", "start_time": "11:15" },
     { "name": "第四节课 开始", "start_time": "11:15" },
     { "name": "第四节课 结束", "start_time": "12:00" },
@@ -77,7 +82,12 @@
       "note": "眼保键操 预铃 开始啦",
       "color": null
     },
-    { "name": "眼保键操 开始", "start_time": "15:25", "mp3": "眼保健操.mp3" },
+    {
+      "name": "眼保键操 开始",
+      "start_time": "15:25",
+      "mp3": "眼保健操.mp3",
+      "note": "打工人也要保护好眼睛哦"
+    },
     { "name": "眼保键操 结束", "start_time": "15:30" },
     { "name": "第六节课 开始", "start_time": "15:30" },
     { "name": "第六节课 结束", "start_time": "16:15" },
@@ -112,6 +122,6 @@
       "note": "就寝 开始啦",
       "color": null
     },
-    { "name": "test", "start_time": "22:30", "mp3": "眼保健操.mp3" }
+    { "name": "test", "start_time": "00:01" }
   ]
 }

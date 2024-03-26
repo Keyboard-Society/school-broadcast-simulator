@@ -94,42 +94,37 @@ const App: React.FC = () => {
   return (
     <Flex gap="large" wrap="wrap">
       <Layout className="layoutStyle">
-        <Header className="headerStyle">校铃声模拟器</Header>
+        <Header className="headerStyle">
+          <Flex>
+            <div>校铃声模拟器</div>
+            {/* <div>11111111</div> */}
+          </Flex>
+        </Header>
         <Layout>
           <Sider width="25%" className="siderStyle">
-            <div>
-              <Timeline node={nextNodeSaver.current} nodes={state.nodes} />
-            </div>
+            <Timeline node={nextNodeSaver.current} nodes={state.nodes} />
           </Sider>
           <Content className="contentStyle">
-            <div>
-              <h1>在校模拟器</h1>
-              <SoundPlayer
-                ref={soundPlayerRef}
-                audioSrc="default.mp3"
-                playCount={3}
-              />
-            </div>
-            <div>
-              <h1>{currentTime}</h1>
-            </div>
-            <div>
-              <Button
-                ref={startButtonRef}
-                type="primary"
-                danger
-                onClick={startSystem}
-              >
-                开始
-              </Button>
-            </div>
-            <div>
-              <Card
-                node={nextNodeSaver.current}
-                playSound={playSoundInSoundPlayer}
-                stopSound={stopSoundInSoundPlayer}
-              />
-            </div>
+            <h1>在校模拟器</h1>
+            <SoundPlayer
+              ref={soundPlayerRef}
+              audioSrc="default.mp3"
+              playCount={3}
+            />
+            <h1>{currentTime}</h1>
+            <Button
+              ref={startButtonRef}
+              type="primary"
+              danger
+              onClick={startSystem}
+            >
+              开始
+            </Button>
+            <Card
+              node={nextNodeSaver.current}
+              playSound={playSoundInSoundPlayer}
+              stopSound={stopSoundInSoundPlayer}
+            />
           </Content>
         </Layout>
         <Footer className="footerStyle">This is Footer</Footer>
