@@ -1,6 +1,6 @@
 // src/App.tsx
 
-import { Flex, Layout, Button, Card } from "antd";
+import { Flex, Layout, Button } from "antd";
 import React, { useRef, useState } from "react";
 import "./App.css";
 import SoundPlayer from "./SoundPlayer";
@@ -14,6 +14,7 @@ import {
   next_node,
 } from "./Node";
 import { getNow, getNowString } from "./Clock";
+import Card from "./Card";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -53,6 +54,7 @@ const App: React.FC = () => {
       startButtonRef.current.innerText = "已开始";
       startButtonRef.current.disabled = true;
       startButtonRef.current.removeAttribute("danger");
+      startButtonRef.current.style.display = "none"; // 隐藏按钮
     }
     findNextNode();
     // 每隔 1000 毫秒（即 1 秒）执行一次 updateTime 函数
@@ -96,13 +98,12 @@ const App: React.FC = () => {
         <Layout>
           <Sider width="25%" className="siderStyle">
             <div>
-              <Timeline nodes={state.nodes} />
+              <Timeline node={nextNodeSaver.current} nodes={state.nodes} />
             </div>
           </Sider>
           <Content className="contentStyle">
             <div>
               <h1>在校模拟器</h1>
-
               <SoundPlayer
                 ref={soundPlayerRef}
                 audioSrc="default.mp3"
@@ -123,26 +124,11 @@ const App: React.FC = () => {
               </Button>
             </div>
             <div>
-              <Card title={"next: " + nextNodeSaver.current.name}>
-                <p>事件名称: {nextNodeSaver.current.name}</p>
-                <p>开始时间: {nextNodeSaver.current.start_time}</p>
-                <div>
-                  <p>播放声音: {nextNodeSaver.current.mp3}</p>
-                  <div>
-                    <Button
-                      id="startButton"
-                      type="primary"
-                      onClick={playSoundInSoundPlayer}
-                    >
-                      试播铃声
-                    </Button>
-                    <Button onClick={stopSoundInSoundPlayer}>停止铃声</Button>
-                  </div>
-                </div>
-                {nextNodeSaver.current.note && (
-                  <p>事件描述: {nextNodeSaver.current.note}</p>
-                )}
-              </Card>
+              <Card
+                node={nextNodeSaver.current}
+                playSound={playSoundInSoundPlayer}
+                stopSound={stopSoundInSoundPlayer}
+              />
             </div>
           </Content>
         </Layout>
