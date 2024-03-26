@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/school-broadcast-simulator/static/css/main.4784c84f.css",
+    "main.js": "/school-broadcast-simulator/static/js/main.a058cc67.js",
+    "static/js/453.10d6c7ec.chunk.js": "/school-broadcast-simulator/static/js/453.10d6c7ec.chunk.js",
+    "index.html": "/school-broadcast-simulator/index.html",
+    "main.4784c84f.css.map": "/school-broadcast-simulator/static/css/main.4784c84f.css.map",
+    "main.a058cc67.js.map": "/school-broadcast-simulator/static/js/main.a058cc67.js.map",
+    "453.10d6c7ec.chunk.js.map": "/school-broadcast-simulator/static/js/453.10d6c7ec.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4784c84f.css",
+    "static/js/main.a058cc67.js"
+  ]
+}
