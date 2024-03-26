@@ -1,22 +1,24 @@
 // src/Clock.tsx
-import React, { useState, useEffect } from "react";
 
-const Clock: React.FC = () => {
-  const [currentTime, setCurrentTime] = useState<string>(
-    new Date().toLocaleTimeString()
-  );
+export function getNow() {
+  const now = new Date();
+  return now;
+}
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(
-        new Date().toLocaleTimeString(undefined, { hour12: false })
-      );
-    }, 1000);
+export function getNowString(now: Date | null | undefined) {
+  if (now === null || now === undefined) {
+    now = getNow();
+  }
+  let current = now.toLocaleTimeString(undefined, {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
 
-    return () => clearInterval(interval);
-  }, []);
+  if (current.startsWith("24:")) {
+    current = current.replace("24:", "00:");
+  }
 
-  return <div>{currentTime}</div>;
-};
-
-export default Clock;
+  return current;
+}
