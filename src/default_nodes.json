@@ -55,7 +55,7 @@
       "note": "眼保键操 预铃 开始啦",
       "color": null
     },
-    { "name": "眼保键操 开始", "start_time": "11:10" },
+    { "name": "眼保键操 开始", "start_time": "11:10", "mp3": "眼保健操.mp3" },
     { "name": "眼保键操 结束", "start_time": "11:15" },
     { "name": "第四节课 开始", "start_time": "11:15" },
     { "name": "第四节课 结束", "start_time": "12:00" },
@@ -77,7 +77,7 @@
       "note": "眼保键操 预铃 开始啦",
       "color": null
     },
-    { "name": "眼保键操 开始", "start_time": "15:25" },
+    { "name": "眼保键操 开始", "start_time": "15:25", "mp3": "眼保健操.mp3" },
     { "name": "眼保键操 结束", "start_time": "15:30" },
     { "name": "第六节课 开始", "start_time": "15:30" },
     { "name": "第六节课 结束", "start_time": "16:15" },
@@ -112,6 +112,6 @@
       "note": "就寝 开始啦",
       "color": null
     },
-    { "name": "test", "start_time": "22:30" }
+    { "name": "test", "start_time": "22:30", "mp3": "眼保健操.mp3" }
   ]
 }
