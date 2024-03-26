@@ -1,6 +1,6 @@
 // src/Timeline.tsx
 import React, { useState, useEffect } from "react";
-import { NodeProps } from "./Node";
+import { NodeProps } from "../Node";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Timeline } from "antd";
 

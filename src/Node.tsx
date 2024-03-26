@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import default_nodes_data from "./default_nodes.json";
-import { getNowString } from "./Clock";
+import { _convertTimeStringToDate, getNowString } from "./Clock";
 
 export interface NodeProps {
   start_time: string;
@@ -18,22 +18,6 @@ export const defaultNode: NodeProps = {
   mp3: "default.mp3",
   note: "请点击开始按钮",
 };
-
-function _convertTimeStringToDate(timeString: string) {
-  // Get the current date
-  const today = new Date();
-
-  // Split the time string into hours and minutes
-  const [hours, minutes] = timeString.split(":").map(Number);
-
-  // Set the time values to the current date
-  today.setHours(hours);
-  today.setMinutes(minutes);
-  today.setSeconds(0);
-  today.setMilliseconds(0);
-
-  return today;
-}
 
 export function get_default_nodes() {
   const sortedNodes = default_nodes_data.nodes.sort(

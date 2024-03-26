@@ -60,7 +60,7 @@ class SoundPlayer extends React.Component<SoundPlayerProps, SoundPlayerState> {
       audioSrc = "default.mp3";
     }
     this.audioRef.current?.pause();
-    this.audioRef.current!.src = audioSrc;
+    this.audioRef.current!.src = "/school-broadcast-simulator/" + audioSrc;
     this.audioRef.current?.load();
     this.audioRef.current?.play();
     console.log("Playing sound:", audioSrc, playCount);

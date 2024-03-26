@@ -1,12 +1,13 @@
+import cookie from "react-cookies";
+
 import { NodeProps, get_default_nodes } from "./Node";
 import default_nodes_data from "./default_nodes.json";
-import cookie from "react-cookies";
 
 export interface ScheduleProps {
   name: string;
-  describe?: string | null;
-  end_time?: string;
-  nodes?: NodeProps[];
+  describe: string | null;
+  end_time: string;
+  nodes: NodeProps[];
 }
 
 const defaultSchedule: ScheduleProps = {
@@ -17,15 +18,14 @@ const defaultSchedule: ScheduleProps = {
 };
 const cookie_key = "ScheduleKey";
 
-
 // 获取当前用户cookie
-export const getSchedule = () => {
+export const getSchedule = (): ScheduleProps => {
   var data = cookie.load(cookie_key);
   if (data == null) {
-    data = defaultSchedule
+    data = defaultSchedule;
     setSchedule(default_nodes_data);
   }
-  return data
+  return data;
 };
 
 // 用户登录，保存cookie

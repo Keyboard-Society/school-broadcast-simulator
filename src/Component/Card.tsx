@@ -1,6 +1,6 @@
 // src/Timeline.tsx
 import React, { useEffect, useRef, useState } from "react";
-import { NodeProps } from "./Node";
+import { NodeProps } from "../Node";
 import { Button, Card } from "antd";
 
 interface CardComponentProps {

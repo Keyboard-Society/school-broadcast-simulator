@@ -1,10 +1,13 @@
 // src/App.tsx
 
-import { Flex, Layout, Button } from "antd";
+import { Flex, Layout, Button, Row, Col, Space } from "antd";
 import React, { useRef, useState } from "react";
 import "./App.css";
 import SoundPlayer from "./SoundPlayer";
-import Timeline from "./Timeline";
+import Timeline from "./Component/Timeline";
+import { CalculateRemainingTime, getNow, getNowString } from "./Clock";
+import Card from "./Component/Card";
+import Header from "./Component/Header";
 
 import {
   NodeProps,
@@ -13,10 +16,10 @@ import {
   get_default_nodes,
   next_node,
 } from "./Node";
-import { getNow, getNowString } from "./Clock";
-import Card from "./Card";
+import { getSchedule } from "./ScheduleManagement";
+import { UploadOutlined } from "@ant-design/icons";
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Footer, Sider, Content } = Layout;
 
 type AppState = {
   soundPlayerRef: React.RefObject<SoundPlayer>;
@@ -26,7 +29,10 @@ type AppState = {
 const App: React.FC = () => {
   const soundPlayerRef = useRef<SoundPlayer>(null);
   const [currentTime, setCurrentTime] = useState<string>(
-    "当前时间: " + getNowString(getNow())
+    getNowString(getNow())
+  );
+  const [countdownTime, setCountdownTime] = useState<string>(
+    getNowString(getNow())
   );
   const [state] = useState<AppState>(() => {
     const nodes = get_default_nodes();
@@ -68,7 +74,8 @@ const App: React.FC = () => {
 
   const updateTime = () => {
     const now = getNow();
-    setCurrentTime("当前时间: " + getNowString(now));
+    setCurrentTime(getNowString(now));
+    setCountdownTime(CalculateRemainingTime(now, getSchedule().end_time));
     if (check_node(now, nextNodeSaver.current)) {
       console.log("开始事件", nextNodeSaver.current);
       playSoundInSoundPlayer();
@@ -91,17 +98,28 @@ const App: React.FC = () => {
     }
   };
 
+  const baseStyle: React.CSSProperties = {
+    width: "25%",
+  };
+
   return (
     <Flex gap="large" wrap="wrap">
       <Layout className="layoutStyle">
-        <Header className="headerStyle">
-          <Flex>
-            <div>校铃声模拟器</div>
-            {/* <div>11111111</div> */}
-          </Flex>
-        </Header>
+        <Header />
         <Layout>
           <Sider width="25%" className="siderStyle">
+            <Flex vertical>
+              <div>配置名称: {getSchedule().name}</div>
+              <div>描述: {getSchedule().describe}</div>
+              <div>end time: {getSchedule().end_time}</div>
+              <div>
+                <Space>
+                  <Button>下载</Button>
+                  <Button>重置</Button>
+                  <Button icon={<UploadOutlined />}>上传</Button>
+                </Space>
+              </div>
+            </Flex>
             <Timeline node={nextNodeSaver.current} nodes={state.nodes} />
           </Sider>
           <Content className="contentStyle">
@@ -109,9 +127,12 @@ const App: React.FC = () => {
             <SoundPlayer
               ref={soundPlayerRef}
               audioSrc="default.mp3"
-              playCount={3}
+              playCount={1}
             />
-            <h1>{currentTime}</h1>
+            <h1>{"当前时间: " + currentTime}</h1>
+            <div>
+              [{getSchedule().end_time} 下班/放学] 倒计时 {countdownTime}
+            </div>
             <Button
               ref={startButtonRef}
               type="primary"
