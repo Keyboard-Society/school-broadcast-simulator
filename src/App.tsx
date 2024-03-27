@@ -110,8 +110,8 @@ const App: React.FC = () => {
           <Sider node={nextNodeSaver.current} nodes={state.nodes} />
           <Content className="contentStyle">
             <Row>
-              <Col span={8}></Col>
-              <Col span={8}>
+              <Col span={6}></Col>
+              <Col span={12}>
                 <h1>在校模拟器</h1>
                 <SoundPlayer
                   ref={soundPlayerRef}
@@ -143,7 +143,7 @@ const App: React.FC = () => {
                   stopSound={stopSoundInSoundPlayer}
                 />
               </Col>
-              <Col span={8}></Col>
+              <Col span={6}></Col>
             </Row>
           </Content>
         </Layout>
