@@ -3,6 +3,7 @@ import cookie from "react-cookies";
 import { NodeProps, get_default_nodes } from "./Node";
 import default_nodes_data from "./default_nodes.json";
 
+const cookie_key = "ScheduleKey";
 export interface ScheduleProps {
   name: string;
   describe: string | null;
@@ -16,26 +17,40 @@ const defaultSchedule: ScheduleProps = {
   end_time: default_nodes_data.end_time,
   nodes: get_default_nodes(),
 };
-const cookie_key = "ScheduleKey";
 
-// 获取当前用户cookie
+function setCookie(cname: string, cvalue: any, exdays: number) {
+  var d = new Date();
+  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+  var expires = "expires=" + d.toString();
+  document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+export const setSchedule = (scheduleData: ScheduleProps) => {
+  const serializedData = JSON.stringify(scheduleData);
+  setCookie(cookie_key, serializedData, 30);
+};
+
 export const getSchedule = (): ScheduleProps => {
   var data = cookie.load(cookie_key);
-  if (data == null) {
-    data = defaultSchedule;
-    setSchedule(default_nodes_data);
+  if (data == "undefined" || data == undefined || data == null) {
+    setSchedule(defaultSchedule);
+    data = cookie.load(cookie_key);
   }
+  console.log("getSchedule", data);
   return data;
 };
 
-// 用户登录，保存cookie
-export const setSchedule = (scheduleData: ScheduleProps) => {
-  cookie.save(cookie_key, scheduleData, { path: "/" });
-};
-
-// 用户登出，删除cookie
 export const resetSchedule = () => {
   cookie.remove(cookie_key);
   setSchedule(default_nodes_data);
-  //   window.location.href = "/Login";
+};
+
+export const isScheduleProps = (data: any): data is ScheduleProps => {
+  return (
+    typeof data === "object" &&
+    data !== null &&
+    "name" in data &&
+    "describe" in data &&
+    "end_time" in data
+  );
 };

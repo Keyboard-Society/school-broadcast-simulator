@@ -1,22 +1,24 @@
 # school broadcast simulator
 
+- visit the [web](https://keyboard-society.github.io/school-broadcast-simulator/)
 - This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 - design by [antd](https://ant-design.antgroup.com/)
   - for [antd-cn](https://ant-design.antgroup.com/docs/react/introduce-cn)
 
 ## TODO
 
-- [ ] 显示作息表名称
-  - [ ] 显示备注
-- [ ] 放学倒计时
+- [x] 显示作息表名称
+  - [x] 显示备注
+- [x] 放学倒计时
 - [ ] 休息倒计时
-- [ ] 时间线标记
-- [ ] 下载配置与上传配置
+- [x] 时间线标记
+- [x] 下载配置与上传配置
   - [ ] 表明是利用缓存
 - [x] 眼保健操音乐
 - [ ] 课间操音乐
 - [ ] 音乐用 URL 测试
 - [ ] 备注增加打工人注释
+- [ ] 样式调整
 
 ## Available Scripts
 

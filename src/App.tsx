@@ -1,14 +1,14 @@
 // src/App.tsx
 
-import { Flex, Layout, Button, Row, Col, Space } from "antd";
+import { Button, Flex, Layout } from "antd";
 import React, { useRef, useState } from "react";
 import "./App.css";
-import SoundPlayer from "./SoundPlayer";
-import Timeline from "./Component/Timeline";
 import { CalculateRemainingTime, getNow, getNowString } from "./Clock";
 import Card from "./Component/Card";
 import Header from "./Component/Header";
+import SoundPlayer from "./SoundPlayer";
 
+import Sider from "./Component/Sider";
 import {
   NodeProps,
   check_node,
@@ -17,9 +17,8 @@ import {
   next_node,
 } from "./Node";
 import { getSchedule } from "./ScheduleManagement";
-import { UploadOutlined } from "@ant-design/icons";
 
-const { Footer, Sider, Content } = Layout;
+const { Footer, Content } = Layout;
 
 type AppState = {
   soundPlayerRef: React.RefObject<SoundPlayer>;
@@ -107,21 +106,8 @@ const App: React.FC = () => {
       <Layout className="layoutStyle">
         <Header />
         <Layout>
-          <Sider width="25%" className="siderStyle">
-            <Flex vertical>
-              <div>配置名称: {getSchedule().name}</div>
-              <div>描述: {getSchedule().describe}</div>
-              <div>end time: {getSchedule().end_time}</div>
-              <div>
-                <Space>
-                  <Button>下载</Button>
-                  <Button>重置</Button>
-                  <Button icon={<UploadOutlined />}>上传</Button>
-                </Space>
-              </div>
-            </Flex>
-            <Timeline node={nextNodeSaver.current} nodes={state.nodes} />
-          </Sider>
+          <Sider node={nextNodeSaver.current} nodes={state.nodes} />
+
           <Content className="contentStyle">
             <h1>在校模拟器</h1>
             <SoundPlayer
