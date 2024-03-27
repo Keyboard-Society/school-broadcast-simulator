@@ -16,7 +16,7 @@ export const defaultNode: NodeProps = {
   start_time: "00:00",
   name: "默认节点",
   mp3: "default.mp3",
-  note: "请点击开始按钮",
+  note: "- 请点击开始按钮",
 };
 
 export function get_default_nodes() {

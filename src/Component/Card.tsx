@@ -2,6 +2,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NodeProps } from "../Node";
 import { Button, Card, Descriptions } from "antd";
+// import rehypeHighlight from 'rehype-highlight'
+import Markdown from "react-markdown";
 
 interface CardComponentProps {
   node: NodeProps;
@@ -28,9 +30,10 @@ const CardComponent: React.FC<CardComponentProps> = ({
           </Button>
           <Button onClick={stopSound}>停止铃声</Button>
         </Descriptions.Item>
-        <Descriptions.Item label="事件描述 ">{node.note}</Descriptions.Item>
         {node.note && (
-          <Descriptions.Item label="事件名称: ">{node.name}</Descriptions.Item>
+          <Descriptions.Item label="事件描述 ">
+            <Markdown>{node.note}</Markdown>
+          </Descriptions.Item>
         )}
       </Descriptions>
     </Card>
