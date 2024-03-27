@@ -20,6 +20,11 @@ const CardComponent: React.FC<CardComponentProps> = ({
     <Card title={"next: " + node.name}>
       <Descriptions bordered column={1}>
         <Descriptions.Item label="事件名称 ">{node.name}</Descriptions.Item>
+        {node.note && (
+          <Descriptions.Item label="事件描述 ">
+            <Markdown>{node.note}</Markdown>
+          </Descriptions.Item>
+        )}
         <Descriptions.Item label="开始时间 ">
           {node.start_time}
         </Descriptions.Item>
@@ -30,11 +35,6 @@ const CardComponent: React.FC<CardComponentProps> = ({
           </Button>
           <Button onClick={stopSound}>停止铃声</Button>
         </Descriptions.Item>
-        {node.note && (
-          <Descriptions.Item label="事件描述 ">
-            <Markdown>{node.note}</Markdown>
-          </Descriptions.Item>
-        )}
       </Descriptions>
     </Card>
   );

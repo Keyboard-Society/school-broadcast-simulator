@@ -1,6 +1,6 @@
 // src/App.tsx
 
-import { Button, Descriptions, Flex, Layout } from "antd";
+import { Button, Col, Descriptions, Flex, Layout, Row } from "antd";
 import React, { useRef, useState } from "react";
 import "./App.css";
 import { CalculateRemainingTime, getNow, getNowString } from "./Clock";
@@ -17,6 +17,7 @@ import {
   next_node,
 } from "./Node";
 import { getSchedule } from "./ScheduleManagement";
+import Markdown from "react-markdown";
 
 const { Footer, Content } = Layout;
 
@@ -107,38 +108,43 @@ const App: React.FC = () => {
         <Header />
         <Layout>
           <Sider node={nextNodeSaver.current} nodes={state.nodes} />
-
           <Content className="contentStyle">
-            <h1>在校模拟器</h1>
-            <SoundPlayer
-              ref={soundPlayerRef}
-              audioSrc="default.mp3"
-              playCount={1}
-            />
-            <Button
-              ref={startButtonRef}
-              type="primary"
-              danger
-              onClick={startSystem}
-            >
-              开始
-            </Button>
-            <Descriptions bordered column={1}>
-              <Descriptions.Item label="当前时间">
-                {currentTime}
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={"[" + getSchedule().end_time + " 下班/放学]-倒计时"}
-              >
-                {countdownTime}
-              </Descriptions.Item>
-            </Descriptions>
-
-            <Card
-              node={nextNodeSaver.current}
-              playSound={playSoundInSoundPlayer}
-              stopSound={stopSoundInSoundPlayer}
-            />
+            <Row>
+              <Col span={8}></Col>
+              <Col span={8}>
+                <h1>在校模拟器</h1>
+                <SoundPlayer
+                  ref={soundPlayerRef}
+                  audioSrc="default.mp3"
+                  playCount={1}
+                />
+                <Markdown></Markdown>
+                <Button
+                  ref={startButtonRef}
+                  type="primary"
+                  danger
+                  onClick={startSystem}
+                >
+                  开始
+                </Button>
+                <Descriptions bordered column={1}>
+                  <Descriptions.Item label="当前时间">
+                    {currentTime}
+                  </Descriptions.Item>
+                  <Descriptions.Item
+                    label={"[" + getSchedule().end_time + " 下班/放学]-倒计时"}
+                  >
+                    {countdownTime}
+                  </Descriptions.Item>
+                </Descriptions>
+                <Card
+                  node={nextNodeSaver.current}
+                  playSound={playSoundInSoundPlayer}
+                  stopSound={stopSoundInSoundPlayer}
+                />
+              </Col>
+              <Col span={8}></Col>
+            </Row>
           </Content>
         </Layout>
         <Footer className="footerStyle">This is Footer</Footer>
