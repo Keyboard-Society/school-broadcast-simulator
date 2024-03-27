@@ -149,11 +149,6 @@
       "mp3": "default.mp3",
       "note": "就寝 开始啦",
       "color": null
-    },
-    {
-      "name": "test",
-      "start_time": "00:01",
-      "note": "- 这是一个测试节点，请更新**配置表**避免测试节点。\n- 配置表用 cookie 存储, 注意避免配置丢失。"
     }
   ]
 }
