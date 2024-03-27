@@ -1,9 +1,8 @@
-import cookie from "react-cookies";
-
 import { NodeProps, get_default_nodes } from "./Node";
 import default_nodes_data from "./default_nodes.json";
 
-const cookie_key = "ScheduleKey";
+const localStorageKey = "ScheduleKey";
+
 export interface ScheduleProps {
   name: string;
   describe: string | null;
@@ -18,31 +17,25 @@ const defaultSchedule: ScheduleProps = {
   nodes: get_default_nodes(),
 };
 
-function setCookie(cname: string, cvalue: any, exdays: number) {
-  var d = new Date();
-  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
-  var expires = "expires=" + d.toString();
-  document.cookie = cname + "=" + cvalue + "; " + expires;
-}
-
 export const setSchedule = (scheduleData: ScheduleProps) => {
   const serializedData = JSON.stringify(scheduleData);
-  setCookie(cookie_key, serializedData, 30);
+  localStorage.setItem(localStorageKey, serializedData);
 };
 
 export const getSchedule = (): ScheduleProps => {
-  var data = cookie.load(cookie_key);
-  if (data == "undefined" || data == undefined || data == null) {
+  const data = localStorage.getItem(localStorageKey);
+  if (!data) {
     setSchedule(defaultSchedule);
-    data = cookie.load(cookie_key);
+    return defaultSchedule;
   }
-  console.log("getSchedule", data);
-  return data;
+  const parsedData = JSON.parse(data);
+  console.log("getSchedule", parsedData);
+  return parsedData;
 };
 
 export const resetSchedule = () => {
-  cookie.remove(cookie_key);
-  setSchedule(default_nodes_data);
+  localStorage.removeItem(localStorageKey);
+  setSchedule(defaultSchedule);
 };
 
 export const isScheduleProps = (data: any): data is ScheduleProps => {
