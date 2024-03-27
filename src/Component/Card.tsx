@@ -1,7 +1,7 @@
 // src/Timeline.tsx
 import React, { useEffect, useRef, useState } from "react";
 import { NodeProps } from "../Node";
-import { Button, Card } from "antd";
+import { Button, Card, Descriptions } from "antd";
 
 interface CardComponentProps {
   node: NodeProps;
@@ -16,18 +16,23 @@ const CardComponent: React.FC<CardComponentProps> = ({
 }) => {
   return (
     <Card title={"next: " + node.name}>
-      <p>事件名称: {node.name}</p>
-      <p>开始时间: {node.start_time}</p>
-      <div>
-        <p>播放声音: {node.mp3}</p>
-        <div>
+      <Descriptions bordered column={1}>
+        <Descriptions.Item label="事件名称 ">{node.name}</Descriptions.Item>
+        <Descriptions.Item label="开始时间 ">
+          {node.start_time}
+        </Descriptions.Item>
+        <Descriptions.Item label="播放声音 ">{node.mp3}</Descriptions.Item>
+        <Descriptions.Item label="试播 ">
           <Button id="startButton" type="primary" onClick={playSound}>
             试播铃声
           </Button>
           <Button onClick={stopSound}>停止铃声</Button>
-        </div>
-      </div>
-      {node.note && <p>事件描述: {node.note}</p>}
+        </Descriptions.Item>
+        <Descriptions.Item label="事件描述 ">{node.note}</Descriptions.Item>
+        {node.note && (
+          <Descriptions.Item label="事件名称: ">{node.name}</Descriptions.Item>
+        )}
+      </Descriptions>
     </Card>
   );
 };

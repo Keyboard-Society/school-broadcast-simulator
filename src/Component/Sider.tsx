@@ -3,11 +3,11 @@
 import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
-  Flex,
+  Descriptions,
+  Divider,
   Layout,
-  Space,
   Upload,
-  UploadProps
+  UploadProps,
 } from "antd";
 import { saveAs } from "file-saver";
 import React from "react";
@@ -91,20 +91,21 @@ const SideComponent: React.FC<SideProps> = ({ node, nodes }) => {
 
   return (
     <Sider width="25%" className="siderStyle">
-      <Flex vertical>
-        <div>配置名称: {schedule.name}</div>
-        <div>描述: {schedule.describe}</div>
-        <div>end time: {schedule.end_time}</div>
-        <div>
-          <Space>
-            <Button onClick={handleDownload}>下载</Button>
-            <Button onClick={handleReset}>重置</Button>
-            <Upload {...props}>
-              <Button icon={<UploadOutlined />}>上传</Button>
-            </Upload>
-          </Space>
-        </div>
-      </Flex>
+      <Descriptions title="配置表" bordered column={1}>
+        <Descriptions.Item label="配置名称:">{schedule.name}</Descriptions.Item>
+        <Descriptions.Item label="描述:">{schedule.describe}</Descriptions.Item>
+        <Descriptions.Item label="end time:">
+          {schedule.end_time}
+        </Descriptions.Item>
+        <Descriptions.Item label="更新">
+          <Button onClick={handleDownload}>下载</Button>
+          <Button onClick={handleReset}>重置</Button>
+          <Upload {...props}>
+            <Button icon={<UploadOutlined />}>上传</Button>
+          </Upload>
+        </Descriptions.Item>
+      </Descriptions>
+      <Divider orientation="left"></Divider>
       <Timeline node={node} nodes={nodes} />
     </Sider>
   );

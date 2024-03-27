@@ -1,6 +1,6 @@
 // src/App.tsx
 
-import { Button, Flex, Layout } from "antd";
+import { Button, Descriptions, Flex, Layout } from "antd";
 import React, { useRef, useState } from "react";
 import "./App.css";
 import { CalculateRemainingTime, getNow, getNowString } from "./Clock";
@@ -115,10 +115,6 @@ const App: React.FC = () => {
               audioSrc="default.mp3"
               playCount={1}
             />
-            <h1>{"当前时间: " + currentTime}</h1>
-            <div>
-              [{getSchedule().end_time} 下班/放学] 倒计时 {countdownTime}
-            </div>
             <Button
               ref={startButtonRef}
               type="primary"
@@ -127,6 +123,17 @@ const App: React.FC = () => {
             >
               开始
             </Button>
+            <Descriptions bordered column={1}>
+              <Descriptions.Item label="当前时间">
+                {currentTime}
+              </Descriptions.Item>
+              <Descriptions.Item
+                label={"[" + getSchedule().end_time + " 下班/放学]-倒计时"}
+              >
+                {countdownTime}
+              </Descriptions.Item>
+            </Descriptions>
+
             <Card
               node={nextNodeSaver.current}
               playSound={playSoundInSoundPlayer}
