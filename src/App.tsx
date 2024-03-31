@@ -1,6 +1,7 @@
 // src/App.tsx
 
-import { Button, Col, Descriptions, Flex, Layout, Row } from "antd";
+import { Button, Col, Descriptions, Flex, Layout, Row, Slider } from "antd";
+
 import React, { useRef, useState } from "react";
 import "./App.css";
 import { CalculateRemainingTime, getNow, getNowString } from "./Clock";
@@ -8,6 +9,7 @@ import Card from "./Component/Card";
 import Header from "./Component/Header";
 import SoundPlayer from "./SoundPlayer";
 
+import Markdown from "react-markdown";
 import Sider from "./Component/Sider";
 import {
   NodeProps,
@@ -17,7 +19,6 @@ import {
   next_node,
 } from "./Node";
 import { getSchedule } from "./ScheduleManagement";
-import Markdown from "react-markdown";
 
 const { Footer, Content } = Layout;
 
@@ -102,6 +103,15 @@ const App: React.FC = () => {
     width: "25%",
   };
 
+  const setSoundInSoundPlayerVolume = (value: number) => {
+    if (isNaN(value)) {
+      return;
+    }
+    if (soundPlayerRef.current) {
+      soundPlayerRef.current.setVolume(value);
+    }
+  };
+
   return (
     <Flex gap="large" wrap="wrap">
       <Layout className="layoutStyle">
@@ -141,6 +151,7 @@ const App: React.FC = () => {
                   node={nextNodeSaver.current}
                   playSound={playSoundInSoundPlayer}
                   stopSound={stopSoundInSoundPlayer}
+                  setVolume={setSoundInSoundPlayerVolume}
                 />
               </Col>
               <Col span={6}></Col>

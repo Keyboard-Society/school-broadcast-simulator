@@ -80,10 +80,16 @@ class SoundPlayer extends React.Component<SoundPlayerProps, SoundPlayerState> {
     });
   };
 
+  setVolume = (target_volume: number) => {
+    console.log(this.audioRef.current!.volume); // 1
+    this.audioRef.current!.volume = target_volume;
+    console.log(this.audioRef.current!.volume); // 1
+  };
+
   render() {
     return (
       <div>
-        <audio ref={this.audioRef} src={this.props.audioSrc} />
+        <audio id="audio" ref={this.audioRef} src={this.props.audioSrc} />
       </div>
     );
   }
