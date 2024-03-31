@@ -1,5 +1,6 @@
 // src/SoundPlayer.tsx
 import React from "react";
+import { getRandomMP3 } from "./ConstantStore";
 
 type SoundPlayerProps = {
   audioSrc: string;
@@ -58,6 +59,9 @@ class SoundPlayer extends React.Component<SoundPlayerProps, SoundPlayerState> {
   playSound = (audioSrc: string | undefined, playCount: number = 3) => {
     if (!audioSrc) {
       audioSrc = "default.mp3";
+    }
+    if (audioSrc == "Random") {
+      audioSrc = getRandomMP3();
     }
     this.audioRef.current!.pause();
     var target_src = "/school-broadcast-simulator/" + audioSrc;

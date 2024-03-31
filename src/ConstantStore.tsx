@@ -11,7 +11,15 @@ export const MP3List = [
   "口琴.mp3",
   "七色巧克力.mp3",
   "下课.mp3",
-  "眼保健操.mp3",
   "英雄降临.mp3",
   "増田順一 - 回復.mp3",
+  "眼保健操.mp3",
 ];
+
+export const noRandomList = ["眼保健操.mp3"];
+
+export function getRandomMP3() {
+  const availableOptions = MP3List.filter((mp3) => !noRandomList.includes(mp3));
+  const randomIndex = Math.floor(Math.random() * availableOptions.length);
+  return availableOptions[randomIndex];
+}

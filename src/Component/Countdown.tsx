@@ -19,7 +19,7 @@ import React, { useEffect, useRef, useState } from "react";
 // import rehypeHighlight from 'rehype-highlight'
 import { PlusOutlined } from "@ant-design/icons";
 import SoundPlayer from "../SoundPlayer";
-import { MP3List } from "../ConstantStore";
+import { MP3List, getRandomMP3 } from "../ConstantStore";
 
 const { Text, Link } = Typography;
 
@@ -38,6 +38,8 @@ const twoColors: ProgressProps["strokeColor"] = {
   "100%": "#87d068",
 };
 
+const RandomStr = "Random(随机音乐)"
+
 interface CountdownComponentProps {}
 
 let index = 0;
@@ -45,16 +47,17 @@ const CountdownComponent: React.FC<CountdownComponentProps> = ({}) => {
   const countdownType = [0.5, 1, 2, 3, 5, 15, 25, 30];
   const soundPlayerRef = useRef<SoundPlayer>(null);
   const [countdownValue, setCountdownValue] = useState<number>(20);
-  const [items, setItems] = useState(MP3List);
-  const [soundSource, setSoundSource] = useState(MP3List[0]);
+  const [items, setItems] = useState([RandomStr].concat(MP3List));
+  const [soundSource, setSoundSource] = useState(RandomStr);
 
   const [countdownData, setCountdownData] = useState<CountdownProps[]>([]);
   const inputRef = useRef<InputRef>(null);
 
   const playSoundInSoundPlayer = (soundSource: string) => {
+    
     stopSoundInSoundPlayer(); // 停止先前的声音
     if (soundPlayerRef.current) {
-      soundPlayerRef.current.playSound(soundSource, 1);
+      soundPlayerRef.current.playSound(soundSource == RandomStr ? getRandomMP3() : soundSource, 1);
     }
   };
 
@@ -95,7 +98,7 @@ const CountdownComponent: React.FC<CountdownComponentProps> = ({}) => {
     var data: CountdownProps = {
       startTime: startTime,
       countDownMinute: value,
-      mp3: soundSource,
+      mp3: soundSource == RandomStr ? getRandomMP3() : soundSource,
       numerator: 0,
       denominator: value * 60,
       percent: 0,
