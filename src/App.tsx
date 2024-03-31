@@ -1,6 +1,6 @@
 // src/App.tsx
 
-import { Button, Col, Descriptions, Flex, Layout, Row, Slider } from "antd";
+import { Button, Col, Descriptions, Flex, Layout, Row } from "antd";
 
 import React, { useRef, useState } from "react";
 import "./App.css";
@@ -10,6 +10,7 @@ import Header from "./Component/Header";
 import SoundPlayer from "./SoundPlayer";
 
 import Markdown from "react-markdown";
+import CountdownComponent from "./Component/Countdown";
 import Sider from "./Component/Sider";
 import {
   NodeProps,
@@ -153,6 +154,7 @@ const App: React.FC = () => {
                   stopSound={stopSoundInSoundPlayer}
                   setVolume={setSoundInSoundPlayerVolume}
                 />
+                <CountdownComponent />
               </Col>
               <Col span={6}></Col>
             </Row>

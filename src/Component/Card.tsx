@@ -1,7 +1,7 @@
 // src/Timeline.tsx
-import React, { useEffect, useRef, useState } from "react";
+import { Button, Card, Descriptions, Slider, Typography } from "antd";
+import React from "react";
 import { NodeProps } from "../Node";
-import { Button, Card, Descriptions, Typography, Slider } from "antd";
 // import rehypeHighlight from 'rehype-highlight'
 import Markdown from "react-markdown";
 
@@ -24,7 +24,6 @@ const CardComponent: React.FC<CardComponentProps> = ({
     <Card title={"next: " + node.name}>
       <Descriptions bordered column={1}>
         <Descriptions.Item label="事件名称 ">
-          {" "}
           <Text>{node.name}</Text>
         </Descriptions.Item>
         {node.note && (

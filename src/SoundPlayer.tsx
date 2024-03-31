@@ -1,5 +1,5 @@
 // src/SoundPlayer.tsx
-import React, { useRef } from "react";
+import React from "react";
 
 type SoundPlayerProps = {
   audioSrc: string;
@@ -59,11 +59,13 @@ class SoundPlayer extends React.Component<SoundPlayerProps, SoundPlayerState> {
     if (!audioSrc) {
       audioSrc = "default.mp3";
     }
-    this.audioRef.current?.pause();
+    this.audioRef.current!.pause();
     this.audioRef.current!.src = "/school-broadcast-simulator/" + audioSrc;
-    this.audioRef.current?.load();
-    this.audioRef.current?.play();
-    console.log("Playing sound:", audioSrc, playCount);
+    this.audioRef.current!.load();
+    this.audioRef.current!.addEventListener("canplay", (event) => {
+      this.audioRef.current!.play();
+      console.log("Playing sound:", audioSrc, playCount);
+    });
     this.setState({
       isPlaying: true,
       remainingPlays: playCount,
@@ -72,7 +74,7 @@ class SoundPlayer extends React.Component<SoundPlayerProps, SoundPlayerState> {
 
   stopSound = () => {
     this.audioRef.current?.pause();
-    this.audioRef.current?.load();
+    // this.audioRef.current?.load();
     console.log("Sound stopped");
     this.setState({
       isPlaying: false,
