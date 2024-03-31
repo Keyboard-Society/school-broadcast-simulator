@@ -45,7 +45,7 @@ const CardComponent: React.FC<CardComponentProps> = ({
         <Descriptions.Item label="铃声音量 ">
           <Slider
             defaultValue={30}
-            tooltip={{ open: true }}
+            tooltip={{}}
             min={0}
             max={1}
             step={0.01}
