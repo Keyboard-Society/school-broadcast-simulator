@@ -1,23 +1,25 @@
 // src/Timeline.tsx
 import {
-    Button,
-    Card,
-    Descriptions,
-    Divider,
-    Input,
-    InputNumber,
-    InputRef,
-    Progress,
-    Row,
-    Select,
-    Slider,
-    Space,
-    Typography,
+  Button,
+  Card,
+  Descriptions,
+  Divider,
+  Input,
+  InputNumber,
+  InputRef,
+  Progress,
+  ProgressProps,
+  Row,
+  Select,
+  Slider,
+  Space,
+  Typography,
 } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 // import rehypeHighlight from 'rehype-highlight'
 import { PlusOutlined } from "@ant-design/icons";
 import SoundPlayer from "../SoundPlayer";
+import { MP3List } from "../ConstantStore";
 
 const { Text, Link } = Typography;
 
@@ -28,7 +30,13 @@ export interface CountdownProps {
   denominator: number;
   numerator: number;
   percent: number;
+  isPlayed: boolean;
 }
+
+const twoColors: ProgressProps["strokeColor"] = {
+  "0%": "#108ee9",
+  "100%": "#87d068",
+};
 
 interface CountdownComponentProps {}
 
@@ -37,12 +45,8 @@ const CountdownComponent: React.FC<CountdownComponentProps> = ({}) => {
   const countdownType = [0.5, 1, 2, 3, 5, 15, 25, 30];
   const soundPlayerRef = useRef<SoundPlayer>(null);
   const [countdownValue, setCountdownValue] = useState<number>(20);
-  const [items, setItems] = useState([
-    "default.mp3",
-    "回復.mp3",
-    "眼保健操.mp3",
-  ]);
-  const [soundSource, setSoundSource] = useState("回復.mp3");
+  const [items, setItems] = useState(MP3List);
+  const [soundSource, setSoundSource] = useState(MP3List[0]);
 
   const [countdownData, setCountdownData] = useState<CountdownProps[]>([]);
   const inputRef = useRef<InputRef>(null);
@@ -95,6 +99,7 @@ const CountdownComponent: React.FC<CountdownComponentProps> = ({}) => {
       numerator: 0,
       denominator: value * 60,
       percent: 0,
+      isPlayed: false,
     };
 
     setCountdownData((prevData) => [...prevData, data]);
@@ -108,22 +113,22 @@ const CountdownComponent: React.FC<CountdownComponentProps> = ({}) => {
         // console.log(prevData);
         return prevData
           .map((data) => {
+            if (data.percent == 100) {
+              playSoundInSoundPlayer(data.mp3);
+              data.isPlayed = true;
+            }
             const numerator = Math.round(currentSeconds - data.startTime);
             const percent =
               Math.round((numerator / data.denominator) * 1000) / 10;
 
-            if (percent >= 100) {
-              playSoundInSoundPlayer(data.mp3);
-              console.log("playSoundInSoundPlayer");
-            }
             const updatedData = {
               ...data,
               numerator,
-              percent,
+              percent: percent > 100 ? 100 : percent,
             };
             return updatedData;
           })
-          .filter((data) => data.percent < 100); // 过滤掉 percent 不满足条件的数据
+          .filter((data) => !data.isPlayed); // 过滤掉 percent 不满足条件的数据
       });
     }, 1000);
 
@@ -131,7 +136,7 @@ const CountdownComponent: React.FC<CountdownComponentProps> = ({}) => {
   }, []);
 
   return (
-    <Card title="自定义番茄时间">
+    <Card title="🍅自定义番茄时间">
       <SoundPlayer ref={soundPlayerRef} audioSrc="default.mp3" playCount={1} />
       <Descriptions bordered column={1}>
         <Descriptions.Item label="默认番茄钟">
@@ -216,16 +221,21 @@ const CountdownComponent: React.FC<CountdownComponentProps> = ({}) => {
         </Descriptions.Item>
         <Row id="clockSaver">
           {countdownData.map((data) => (
-            <Space direction="vertical" align="baseline">
+            <Space
+              direction="vertical"
+              align="center"
+              style={{ border: "0.1px solid #69b1ff", padding: "1px" }}
+            >
               <Progress
                 key={data.startTime}
                 strokeLinecap="butt"
                 type="circle"
                 size={60}
                 percent={data.percent}
+                strokeColor={twoColors}
               />
-              <Text>{data.numerator}s</Text>
-              <Text>{data.denominator}s</Text>
+              <Text type="secondary">{data.denominator - data.numerator}s</Text>
+              <Text underline>{data.denominator}s</Text>
             </Space>
           ))}
         </Row>
