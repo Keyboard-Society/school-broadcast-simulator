@@ -13,10 +13,31 @@ export const MP3List = [
   "下课.mp3",
   "英雄降临.mp3",
   "増田順一 - 回復.mp3",
+  "威斯敏斯特钟声.mp3",
+  "瓦妮莎的微笑.mp3",
+
   "眼保健操.mp3",
+  "运动员进行曲.mp3",
+  "大课间操跑步音乐.mp3",
+  "检阅进行曲.mp3",
+
+  "广播体操 第二套 时代在召唤.mp3",
+  "广播体操 第三套 七彩阳光.mp3",
+  "广播体操 第八套.mp3",
+  "广播体操 第九套.mp3",
 ];
 
-export const noRandomList = ["眼保健操.mp3"];
+export const noRandomList = [
+  "眼保健操.mp3",
+  "运动员进行曲.mp3",
+  "大课间操跑步音乐.mp3",
+  "检阅进行曲.mp3",
+
+  "广播体操 第二套 时代在召唤.mp3",
+  "广播体操 第三套 七彩阳光.mp3",
+  "广播体操 第八套.mp3",
+  "广播体操 第九套.mp3",
+];
 
 export function getRandomMP3() {
   const availableOptions = MP3List.filter((mp3) => !noRandomList.includes(mp3));
