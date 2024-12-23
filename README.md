@@ -34,6 +34,8 @@
 - 欢迎提交PR
 - 前端苦手，我改不动了。
 
+- node version v20.10.0
+
 - `npm start`
 - `npm test`
 - `npm run build`
