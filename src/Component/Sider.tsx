@@ -1,4 +1,4 @@
-// src/App.tsx
+// src/Sider.tsx
 
 import { UploadOutlined } from "@ant-design/icons";
 import {
@@ -8,6 +8,7 @@ import {
   Layout,
   Upload,
   UploadProps,
+  Space,
 } from "antd";
 import { saveAs } from "file-saver";
 import React from "react";
@@ -27,6 +28,18 @@ interface SideProps {
   node: NodeProps;
   nodes: NodeProps[];
 }
+
+const fixedLabelStyle = {
+  width: "100px",
+  minWidth: "100px",
+  textAlign: "left" as const,
+  paddingRight: "8px",
+};
+
+const fixedContentStyle = {
+  width: "calc(100% - 100px)",
+  textAlign: "left" as const,
+};
 
 const SideComponent: React.FC<SideProps> = ({ node, nodes }) => {
   const schedule: ScheduleProps = getSchedule();
@@ -90,19 +103,49 @@ const SideComponent: React.FC<SideProps> = ({ node, nodes }) => {
   };
 
   return (
-    <Sider width="25%" className="siderStyle">
-      <Descriptions title="配置表" bordered column={1}>
-        <Descriptions.Item label="配置名称:">{schedule.name}</Descriptions.Item>
-        <Descriptions.Item label="描述:">{schedule.describe}</Descriptions.Item>
-        <Descriptions.Item label="end time:">
+    // 1. 改变 Sider 宽度为固定像素值，例如 300px
+    <Sider width={300} className="siderStyle">
+      <Descriptions title="配置表" bordered column={1} layout="horizontal">
+        <Descriptions.Item
+          label="配置名称:"
+          labelStyle={fixedLabelStyle}
+          contentStyle={fixedContentStyle}
+        >
+          {schedule.name}
+        </Descriptions.Item>
+        <Descriptions.Item
+          label="描述:"
+          labelStyle={fixedLabelStyle}
+          contentStyle={fixedContentStyle}
+        >
+          {schedule.describe}
+        </Descriptions.Item>
+        <Descriptions.Item
+          label="end time:"
+          labelStyle={fixedLabelStyle}
+          contentStyle={fixedContentStyle}
+        >
           {schedule.end_time}
         </Descriptions.Item>
-        <Descriptions.Item label="更新">
-          <Button onClick={handleDownload}>下载</Button>
-          <Button onClick={handleReset}>重置</Button>
-          <Upload {...props}>
-            <Button icon={<UploadOutlined />}>上传</Button>
-          </Upload>
+
+        <Descriptions.Item label="更新" labelStyle={fixedLabelStyle}>
+          <Space direction="vertical" style={{ width: "100%" }} align="start">
+            <Button
+              onClick={handleDownload}
+              type="primary"
+              style={{ width: "100%" }}
+            >
+              下载配置
+            </Button>
+            <Button onClick={handleReset} danger style={{ width: "100%" }}>
+              重置配置
+            </Button>
+            <Upload {...props} showUploadList={false}>
+              <Button icon={<UploadOutlined />} style={{ width: "100%" }}>
+                上传配置
+              </Button>
+            </Upload>
+          </Space>
         </Descriptions.Item>
       </Descriptions>
       <Divider orientation="left"></Divider>

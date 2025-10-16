@@ -73,3 +73,33 @@
   width: calc(100% - 8px);
   max-width: calc(100% - 8px);
 }
+
+.layoutStyle {
+  min-height: 100vh;
+}
+
+.headerStyle {
+  background-color: #001529; 
+  color: white;
+  padding: 0 50px; 
+  line-height: 64px;
+}
+
+.siderStyle {
+  background-color: #f0f2f5; 
+  padding: 16px;
+}
+
+.contentStyle {
+  min-height: 280px;
+  padding: 24px 50px; 
+  background-color: white;
+}
+
+.footerStyle {
+  background-color: #001529;
+  text-align: center;
+  color: #999;
+}
+
+

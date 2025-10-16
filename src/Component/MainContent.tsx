@@ -1,0 +1,76 @@
+import React from "react";
+import { Button, Col, Row, Descriptions } from "antd";
+import Markdown from "react-markdown";
+
+import SoundPlayer from "../SoundPlayer";
+import Card from "./Card";
+import CountdownComponent from "./Countdown";
+import { NodeProps } from "../Node";
+import { getSchedule } from "../ScheduleManagement";
+
+interface MainContentProps {
+  currentTime: string;
+  countdownTime: string;
+  soundPlayerRef: React.RefObject<any>;
+  startButtonRef: React.RefObject<HTMLButtonElement>;
+
+  nextNode: NodeProps;
+
+  startSystem: () => void;
+  playSound: () => void;
+  stopSound: () => void;
+  setVolume: (value: number) => void;
+}
+
+const MainContent: React.FC<MainContentProps> = ({
+  currentTime,
+  countdownTime,
+  soundPlayerRef,
+  startButtonRef,
+  startSystem,
+  nextNode,
+  playSound,
+  stopSound,
+  setVolume,
+}) => {
+  return (
+    <Row justify="center">
+      <Col span={6}></Col>
+      <Col span={12} style={{ maxWidth: "1200px" }}>
+        <h1>在校模拟器</h1>
+        <SoundPlayer
+          ref={soundPlayerRef}
+          audioSrc="default.mp3"
+          playCount={1}
+        />
+        <Markdown></Markdown>
+        <Button
+          ref={startButtonRef}
+          type="primary"
+          danger
+          onClick={startSystem}
+        >
+          开始
+        </Button>
+        <Descriptions bordered column={1}>
+          <Descriptions.Item label="当前时间">{currentTime}</Descriptions.Item>
+          <Descriptions.Item
+            label={"[" + getSchedule().end_time + " 下班/放学]-倒计时"}
+          >
+            {countdownTime}
+          </Descriptions.Item>
+        </Descriptions>
+        <Card
+          node={nextNode}
+          playSound={playSound}
+          stopSound={stopSound}
+          setVolume={setVolume}
+        />
+        <CountdownComponent />
+      </Col>
+      <Col span={6}></Col>
+    </Row>
+  );
+};
+
+export default MainContent;

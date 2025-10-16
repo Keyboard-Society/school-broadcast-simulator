@@ -12,9 +12,9 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
+  group: "pages"
   cancel-in-progress: true
-      
+
 jobs:
   deploy:
     environment:
@@ -36,11 +36,17 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: false 
 
-      - name: Build React app
-        run: npm run build
+      - name: Install dependencies (pnpm)
+        run: pnpm install --frozen-lockfile
+
+      - name: Build React app (pnpm)
+        run: pnpm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
@@ -48,9 +54,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          # Upload entire repository
           path: build
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v3

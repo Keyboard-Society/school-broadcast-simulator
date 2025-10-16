@@ -1,14 +1,13 @@
-// src/Timeline.tsx
 import React, { useState, useEffect } from "react";
 import { NodeProps } from "../Node";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Timeline } from "antd";
 
 interface Item {
-  children?: string;
-  label: string;
+  children?: React.ReactNode;
+  label?: React.ReactNode;
   color?: string;
-  dot?: any;
+  dot?: React.ReactNode;
 }
 
 interface TimelineComponentProps {
@@ -20,53 +19,69 @@ const TimelineComponent: React.FC<TimelineComponentProps> = ({
   node,
   nodes,
 }) => {
-
-
-  const items: Item[] = [];
-
-  const update = () => {
-    items.splice(0, items.length);
-    var past = true;
-
-    for (const i of nodes) {
-      const item: Item = {
-        label: i.start_time,
-      };
-
-      if (i.name) {
-        item.children = i.name;
-      }
-
-      if (i.name == node.name && i.start_time == node.start_time) {
-        // FIXME: icon background color error
-        // item.dot = (
-        //   <ClockCircleOutlined
-        //     className="timeline-clock-icon"
-        //     style={{ fontSize: "16px" }}
-        //     translate="yes"
-        //   />
-        // );
-        past = false;
-      }
-
-      if (past == true) {
-        item.color = "gray";
-      } else {
-        if (i.color) {
-          item.color = i.color;
-        }
-      }
-
-      items.push(item);
-    }
-  };
+  const [items, setItems] = useState<Item[]>([]);
 
   useEffect(() => {
-    update();
-    console.log("TimelineComponent 当前节点:", node);
-  }, [node]);
+    const newItems: Item[] = [];
 
-  update();
-  return <Timeline items={items} mode="left" />;
+    const currentNodeIndex = nodes.findIndex(
+      (i) => i.name === node.name && i.start_time === node.start_time
+    );
+
+    for (let index = 0; index < nodes.length; index++) {
+      const i = nodes[index];
+
+      const isPast = index < currentNodeIndex;
+      const isNext = index === currentNodeIndex;
+
+      const item: Item = {
+        label: undefined,
+        color: i.color || undefined,
+        dot: undefined,
+      };
+
+      const timeSpan = (
+        <span
+          style={{
+            color: isPast ? "#999" : "#333",
+            marginRight: "8px",
+            fontWeight: "bold",
+          }}
+        >
+          {i.start_time}
+        </span>
+      );
+
+      const nameSpan = (
+        <span style={{ color: isPast ? "#999" : "#555" }}>{i.name}</span>
+      );
+
+      item.children = (
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {timeSpan}
+          {nameSpan}
+        </div>
+      );
+
+      if (isNext) {
+        item.color = "green";
+      } else if (isPast) {
+        item.color = "gray";
+      }
+
+      newItems.push(item);
+    }
+
+    setItems(newItems);
+  }, [node, nodes]);
+
+  return (
+    <Timeline
+      mode={undefined}
+      style={{ paddingLeft: "15px", marginTop: "10px" }}
+      items={items}
+    />
+  );
 };
+
 export default TimelineComponent;

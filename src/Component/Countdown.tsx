@@ -38,7 +38,7 @@ const twoColors: ProgressProps["strokeColor"] = {
   "100%": "#87d068",
 };
 
-const RandomStr = "Random(随机音乐)"
+const RandomStr = "Random(随机音乐)";
 
 interface CountdownComponentProps {}
 
@@ -54,10 +54,12 @@ const CountdownComponent: React.FC<CountdownComponentProps> = ({}) => {
   const inputRef = useRef<InputRef>(null);
 
   const playSoundInSoundPlayer = (soundSource: string) => {
-    
     stopSoundInSoundPlayer(); // 停止先前的声音
     if (soundPlayerRef.current) {
-      soundPlayerRef.current.playSound(soundSource == RandomStr ? getRandomMP3() : soundSource, 1);
+      soundPlayerRef.current.playSound(
+        soundSource == RandomStr ? getRandomMP3() : soundSource,
+        1
+      );
     }
   };
 
@@ -160,7 +162,7 @@ const CountdownComponent: React.FC<CountdownComponentProps> = ({}) => {
             <InputNumber
               placeholder="倒计时(分钟)"
               size="large"
-              changeOnWheel
+              // changeOnWheel
               value={countdownValue}
               defaultValue={20}
               onChange={(value) => setCountdownValue(value as number)}
@@ -227,7 +229,7 @@ const CountdownComponent: React.FC<CountdownComponentProps> = ({}) => {
             <Space
               direction="vertical"
               align="center"
-              style={{ border: "0.1px solid #69b1ff", padding: "1px" }}
+              style={{ border: "0.1px solid #d9d9d9", padding: "1px" }}
             >
               <Progress
                 key={data.startTime}
