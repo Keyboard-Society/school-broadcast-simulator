@@ -4,7 +4,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   Button, Divider, Input, InputNumber, InputRef,
-  Progress, ProgressProps, Select, Slider, Space, Typography,
+  Progress, ProgressProps, Select, Slider, Space, Typography, theme,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import SoundPlayer from "../SoundPlayer";
@@ -165,6 +165,8 @@ export const PomodoroControls: React.FC<{
 
 /* ── 进度圈 ── */
 export const PomodoroRings: React.FC<{ data: CountdownProps[] }> = ({ data }) => {
+  const { token } = theme.useToken();
+  const colorBgContainer = token.colorBgContainer;
   if (!data.length) {
     return (
       <div style={{ textAlign: "center", padding: "40px 0", color: "#aeaeb2" }}>
@@ -184,7 +186,9 @@ export const PomodoroRings: React.FC<{ data: CountdownProps[] }> = ({ data }) =>
           <div key={d.startTime} style={{
             display: "flex", flexDirection: "column", alignItems: "center",
             gap: 6, padding: "12px 16px", borderRadius: 16,
-            background: "#fafafa", minWidth: 80,
+            background: colorBgContainer, minWidth: 80,
+            border: `1px solid ${token.colorBorder}`,
+            boxShadow: token.boxShadow,
           }}>
             <Progress type="circle" size={72} percent={d.percent}
               strokeLinecap="round" strokeColor={COLORS} trailColor="#f0f0f0"
