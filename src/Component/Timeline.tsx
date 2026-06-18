@@ -43,7 +43,7 @@ const TimelineComponent: React.FC<TimelineComponentProps> = ({
       const timeSpan = (
         <span
           style={{
-            color: isPast ? "#999" : "#333",
+            color: isPast ? "#aeaeb2" : "#1d1d1f",
             marginRight: "8px",
             fontWeight: "bold",
           }}
@@ -53,7 +53,7 @@ const TimelineComponent: React.FC<TimelineComponentProps> = ({
       );
 
       const nameSpan = (
-        <span style={{ color: isPast ? "#999" : "#555" }}>{i.name}</span>
+        <span style={{ color: isPast ? "#aeaeb2" : "#86868b" }}>{i.name}</span>
       );
 
       item.children = (

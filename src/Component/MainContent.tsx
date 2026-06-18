@@ -37,7 +37,17 @@ const MainContent: React.FC<MainContentProps> = ({
     <Row justify="center">
       <Col span={6}></Col>
       <Col span={12} style={{ maxWidth: "1200px" }}>
-        <h1>在校模拟器</h1>
+        <h1
+          style={{
+            fontSize: "28px",
+            fontWeight: 600,
+            letterSpacing: "-0.5px",
+            color: "#1d1d1f",
+            marginBottom: "24px",
+          }}
+        >
+          在校模拟器
+        </h1>
         <SoundPlayer
           ref={soundPlayerRef}
           audioSrc="default.mp3"
@@ -47,8 +57,9 @@ const MainContent: React.FC<MainContentProps> = ({
         <Button
           ref={startButtonRef}
           type="primary"
-          danger
+          size="large"
           onClick={startSystem}
+          style={{ marginBottom: "24px" }}
         >
           开始
         </Button>

@@ -12,10 +12,10 @@ const HeaderComponent: React.FC = () => {
         <Col flex="auto">
           <div
             style={{
-              fontSize: "1.5em",
-              fontWeight: "bold",
+              fontSize: "1.25em",
+              fontWeight: 600,
               textAlign: "left",
-              color: "white",
+              color: "#1d1d1f",
             }}
           >
             在校模拟器
@@ -28,9 +28,9 @@ const HeaderComponent: React.FC = () => {
             href="https://github.com/Keyboard-Society/school-broadcast-simulator"
             target="_blank"
             style={{
-              color: "white",
+              color: "#0071E3",
               padding: 0,
-              fontSize: "1em",
+              fontSize: "0.9em",
             }}
           >
             github源码

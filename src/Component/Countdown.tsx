@@ -34,8 +34,8 @@ export interface CountdownProps {
 }
 
 const twoColors: ProgressProps["strokeColor"] = {
-  "0%": "#108ee9",
-  "100%": "#87d068",
+  "0%": "#0071E3",
+  "100%": "#34C759",
 };
 
 const RandomStr = "Random(随机音乐)";

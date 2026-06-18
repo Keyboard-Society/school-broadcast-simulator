@@ -13,7 +13,7 @@ const FooterComponent: React.FC = () => {
         {/* 左侧: Author */}
         <Col style={{ textAlign: "left" }}>
           <div style={{ marginBottom: "4px" }}>
-            <Text strong style={{ color: "white" }}>
+            <Text strong style={{ color: "#86868b" }}>
               Author
             </Text>
           </div>
@@ -21,7 +21,7 @@ const FooterComponent: React.FC = () => {
             href="https://github.com/AngusWG"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "white" }}
+            style={{ color: "#0071E3" }}
           >
             AngusWG (GitHub){" "}
             <ExportOutlined style={{ fontSize: "0.8em", marginLeft: "2px" }} />
@@ -30,7 +30,7 @@ const FooterComponent: React.FC = () => {
 
         {/* 中间: Copyright */}
         <Col>
-          <Text style={{ fontSize: "0.9em", color: "white" }}>
+          <Text style={{ fontSize: "0.9em", color: "#86868b" }}>
             Copyright © 2025 School Simulator
             <br />
             MIT License
@@ -40,7 +40,7 @@ const FooterComponent: React.FC = () => {
         {/* 右侧: Support Links */}
         <Col style={{ textAlign: "right" }}>
           <div style={{ marginBottom: "4px" }}>
-            <Text strong style={{ color: "white" }}>
+            <Text strong style={{ color: "#86868b" }}>
               Support by
             </Text>
           </div>
@@ -50,7 +50,7 @@ const FooterComponent: React.FC = () => {
               href="https://ant-design.antgroup.com/index-cn"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: "white" }}
+              style={{ color: "#0071E3" }}
             >
               Ant Design{" "}
               <ExportOutlined
@@ -62,7 +62,7 @@ const FooterComponent: React.FC = () => {
               href="https://zh-hans.react.dev/"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: "white" }}
+              style={{ color: "#0071E3" }}
             >
               react{" "}
               <ExportOutlined
