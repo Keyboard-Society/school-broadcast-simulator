@@ -1,7 +1,7 @@
 // src/Component/Header.tsx
 import React from "react";
 import { Layout, Button, Row, Col } from "antd";
-import { GithubOutlined, ExportOutlined } from "@ant-design/icons";
+import { GithubOutlined, ExportOutlined, BellOutlined } from "@ant-design/icons";
 import { TimeDisplayMode } from "../hooks/useTimeDisplayMode";
 
 const { Header } = Layout;
@@ -20,7 +20,10 @@ const HeaderComponent: React.FC<{
     <Header className={`headerStyle ${themeMode === "dark" ? "header-dark" : ""}`}>
       <Row align="middle" style={{ width: "100%", height: "100%" }}>
         <Col flex="auto">
-          <span className="header-title">在校模拟器</span>
+          <span className="header-title" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <BellOutlined style={{ fontSize: 20 }} />
+            校园广播模拟器
+          </span>
         </Col>
 
         <Col flex="none" style={{ display: "flex", alignItems: "center", gap: 16 }}>
