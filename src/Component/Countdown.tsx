@@ -178,7 +178,7 @@ const CountdownComponent: React.FC<CountdownComponentProps> = ({}) => {
         </Descriptions.Item>
         <Descriptions.Item label="播放声音 ">
           <Select
-            style={{ width: 300 }}
+            style={{ width: "100%", maxWidth: 300 }}
             defaultValue={soundSource}
             onChange={(value) => setSoundSource(value)}
             dropdownRender={(menu) => (

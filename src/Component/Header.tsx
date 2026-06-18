@@ -1,7 +1,7 @@
 // src/Component/Header.tsx
 import React from "react";
 import { Layout, Button, Row, Col } from "antd";
-import { ExportOutlined } from "@ant-design/icons";
+import { GithubOutlined, ExportOutlined } from "@ant-design/icons";
 
 const { Header } = Layout;
 
@@ -10,32 +10,34 @@ const HeaderComponent: React.FC = () => {
     <Header className="headerStyle">
       <Row align="middle" style={{ width: "100%", height: "100%" }}>
         <Col flex="auto">
-          <div
+          <span
             style={{
-              fontSize: "1.25em",
+              fontSize: "1.15em",
               fontWeight: 600,
-              textAlign: "left",
               color: "#1d1d1f",
             }}
           >
             在校模拟器
-          </div>
+          </span>
         </Col>
 
         <Col flex="none">
-          <Button
-            type="link"
+          <a
             href="https://github.com/Keyboard-Society/school-broadcast-simulator"
             target="_blank"
+            rel="noopener noreferrer"
             style={{
               color: "#0071E3",
-              padding: 0,
               fontSize: "0.9em",
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
             }}
           >
-            github源码
-            <ExportOutlined style={{ marginLeft: "4px" }} />
-          </Button>
+            <GithubOutlined />
+            <span className="header-link-text">源码</span>
+            <ExportOutlined />
+          </a>
         </Col>
       </Row>
     </Header>

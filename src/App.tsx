@@ -1,13 +1,10 @@
-import { Button, Col, Descriptions, Flex, Layout, Row } from "antd";
-
 import React, { useRef, useState } from "react";
 import "./App.css";
 import { CalculateRemainingTime, getNow, getNowString } from "./Clock";
 import Header from "./Component/Header";
 import FooterComponent from "./Component/Footer";
 import SoundPlayer from "./SoundPlayer";
-
-import Sider from "./Component/Sider";
+import Dashboard from "./Component/Dashboard";
 import {
   NodeProps,
   check_node,
@@ -16,9 +13,6 @@ import {
   next_node,
 } from "./Node";
 import { getSchedule } from "./ScheduleManagement";
-import MainContent from "./Component/MainContent";
-
-const { Content } = Layout;
 
 type AppState = {
   soundPlayerRef: React.RefObject<SoundPlayer>;
@@ -46,19 +40,17 @@ const App: React.FC = () => {
   const findNextNode = () => {
     var closestNode2 = next_node(state.nodes);
     nextNodeSaver.current = closestNode2;
-    console.log("nextNodeSaver.current ", nextNodeSaver.current);
     return closestNode2;
   };
 
   const startSystem = () => {
     if (startButtonRef.current) {
-      if (startButtonRef.current.innerText == "已开始") {
+      if (startButtonRef.current.innerText === "已开始") {
         console.log("已点过按钮，不能重复点击");
         return;
       }
       startButtonRef.current.innerText = "已开始";
       startButtonRef.current.disabled = true;
-      startButtonRef.current.removeAttribute("danger");
       startButtonRef.current.style.display = "none";
     }
     findNextNode();
@@ -97,10 +89,6 @@ const App: React.FC = () => {
     }
   };
 
-  const baseStyle: React.CSSProperties = {
-    width: "25%",
-  };
-
   const setSoundInSoundPlayerVolume = (value: number) => {
     if (isNaN(value)) {
       return;
@@ -111,31 +99,22 @@ const App: React.FC = () => {
   };
 
   return (
-    <Flex gap="large" wrap="wrap">
-      <Layout className="layoutStyle">
-        <Header />
-        <Layout>
-          <Sider node={nextNodeSaver.current} nodes={state.nodes} />
-
-          {/* CONTENT WRAPPER */}
-          <Content className="contentStyle">
-            <MainContent
-              currentTime={currentTime}
-              countdownTime={countdownTime}
-              soundPlayerRef={soundPlayerRef}
-              startButtonRef={startButtonRef}
-              startSystem={startSystem}
-              nextNode={nextNodeSaver.current}
-              playSound={playSoundInSoundPlayer}
-              stopSound={stopSoundInSoundPlayer}
-              setVolume={setSoundInSoundPlayerVolume}
-            />
-          </Content>
-          {/* END CONTENT WRAPPER */}
-        </Layout>
-        <FooterComponent />
-      </Layout>
-    </Flex>
+    <div className="appRoot">
+      <Header />
+      <Dashboard
+        currentTime={currentTime}
+        countdownTime={countdownTime}
+        soundPlayerRef={soundPlayerRef}
+        startButtonRef={startButtonRef}
+        startSystem={startSystem}
+        nextNode={nextNodeSaver.current}
+        nodes={state.nodes}
+        playSound={playSoundInSoundPlayer}
+        stopSound={stopSoundInSoundPlayer}
+        setVolume={setSoundInSoundPlayerVolume}
+      />
+      <FooterComponent />
+    </div>
   );
 };
 
