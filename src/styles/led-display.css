@@ -1,0 +1,45 @@
+/* LED 7段数码管风格 - Apple 配色 */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+.led-display {
+  font-family: "Orbitron", monospace;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  display: inline-block;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+.led-display-lg {
+  font-size: 48px;
+  color: #0071e3;
+  text-shadow: 0 0 10px #0071e3, 0 0 20px #0071e3;
+}
+
+.led-display-md {
+  font-size: 36px;
+  color: #34c759;
+  text-shadow: 0 0 8px #34c759, 0 0 16px #34c759;
+}
+
+/* 暗色主题下的LED样式 */
+.dark .led-display-lg {
+  color: #0a84ff;
+  text-shadow: 0 0 10px #0a84ff, 0 0 20px #0a84ff;
+}
+
+.dark .led-display-md {
+  color: #34c759;
+  text-shadow: 0 0 8px #34c759, 0 0 16px #34c759;
+}
+
+/* 亮色主题下的LED样式 */
+:root .led-display-lg {
+  color: #0071e3;
+  text-shadow: 0 0 8px #0071e3;
+}
+
+:root .led-display-md {
+  color: #34c759;
+  text-shadow: 0 0 6px #34c759;
+}

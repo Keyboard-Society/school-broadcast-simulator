@@ -14,6 +14,8 @@
     "@types/react-dom": "^18.2.18",
     "antd": "^5.13.1",
     "file-saver": "^2.0.5",
+    "flipclock": "^1.0.1",
+    "jquery": "^4.0.0",
     "react": "^18.2.0",
     "react-cookies": "^0.1.1",
     "react-dom": "^18.2.0",

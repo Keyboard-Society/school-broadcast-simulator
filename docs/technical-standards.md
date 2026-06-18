@@ -13,6 +13,8 @@
 | 类型 | TypeScript | ^4.9.5 | strict mode |
 | UI 库 | Ant Design | ^5.13.1 | 必须保留，不可替换 |
 | 图标 | @ant-design/icons | ^5.2.6 | — |
+| 时间显示 | flipclock | ^1.0.1 | 用于翻牌钟样式 |
+| 时间显示依赖 | jquery | ^4.0.0 | flipclock 依赖 |
 | Markdown | react-markdown | ^9.0.1 | 仅用于事件描述 |
 | 文件下载 | file-saver | ^2.0.5 | — |
 | 构建 | react-scripts (CRA) | 5.0.1 | 不可 eject |

@@ -1,0 +1,56 @@
+/* Flip Clock 翻牌效果 - 参考经典 FlipClock.js 库风格 */
+.flip-clock {
+  font-variant-numeric: tabular-nums;
+  display: inline-flex;
+  perspective: 1000px;
+  gap: 6px;
+  align-items: center;
+}
+
+.flip-clock-digit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.8em;
+  height: 2.2em;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  background-color: #333333;
+  color: #cccccc;
+  border-radius: 4px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    0 3px 8px rgba(0,0,0,0.3);
+  font-size: 1.6em;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.flip-clock-digit.flipping {
+  transform: rotateX(90deg);
+}
+
+/* 分隔符样式 */
+.flip-clock-separator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #cccccc;
+  margin: 0 2px;
+  opacity: 0.8;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .flip-clock-digit {
+    width: 2.2em;
+    height: 1.8em;
+    font-size: 1.2em;
+  }
+
+  .flip-clock {
+    gap: 4px;
+  }
+}

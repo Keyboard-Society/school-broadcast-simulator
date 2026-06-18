@@ -5,6 +5,7 @@ import Header from "./Component/Header";
 import FooterComponent from "./Component/Footer";
 import SoundPlayer from "./SoundPlayer";
 import Dashboard from "./Component/Dashboard";
+import { useTimeDisplayMode } from "./hooks/useTimeDisplayMode";
 import {
   NodeProps,
   check_node,
@@ -26,6 +27,7 @@ const App: React.FC<{ themeMode: Mode; toggleTheme: () => void }> = ({
   toggleTheme,
 }) => {
   const soundPlayerRef = useRef<SoundPlayer>(null);
+  const [timeDisplayMode, toggleTimeDisplayMode] = useTimeDisplayMode();
   const [currentTime, setCurrentTime] = useState<string>(
     getNowString(getNow())
   );
@@ -105,7 +107,7 @@ const App: React.FC<{ themeMode: Mode; toggleTheme: () => void }> = ({
 
   return (
     <div className="appRoot">
-      <Header themeMode={themeMode} toggleTheme={toggleTheme} />
+      <Header themeMode={themeMode} toggleTheme={toggleTheme} timeDisplayMode={timeDisplayMode} toggleTimeDisplayMode={toggleTimeDisplayMode} />
       <Dashboard
         currentTime={currentTime}
         countdownTime={countdownTime}
@@ -117,6 +119,7 @@ const App: React.FC<{ themeMode: Mode; toggleTheme: () => void }> = ({
         playSound={playSoundInSoundPlayer}
         stopSound={stopSoundInSoundPlayer}
         setVolume={setSoundInSoundPlayerVolume}
+        timeDisplayMode={timeDisplayMode}
       />
       <FooterComponent />
     </div>

@@ -5,7 +5,7 @@
 基于 React + Ant Design 的 Web 校园作息铃声模拟器。在浏览器中运行，按预设时间表播放 MP3 铃声。
 
 - **访问地址**：https://keyboard-society.github.io/school-broadcast-simulator/
-- **技术栈**：React 18 + TypeScript 4 + Ant Design 5 + CRA (react-scripts 5)
+- **技术栈**：React 18 + TypeScript 4 + Ant Design 5 + CRA (react-scripts 5) + **Flipclock.js**
 - **包管理**：pnpm
 
 ## 标准文件指引
@@ -56,9 +56,15 @@ src/
 │   ├── Card.tsx        ← 下一个事件卡片（试播+音量）
 │   ├── Countdown.tsx   ← 番茄钟复合组件（usePomodoro hook + Controls + Rings）
 │   ├── Timeline.tsx    ← 全天时间线
+│   ├── TimeDisplay.tsx ← 【关键】时间显示组件（Normal/Flip/LED 三种模式，使用 flipclock 库）
 │   ├── ConfigBar.tsx   ← 【新建】配置管理栏（下载/上传/重置）
 │   ├── Sider.tsx       ← 【已废弃，本次改造不再使用】
 │   └── MainContent.tsx ← 【已废弃，本次改造不再使用】
+├── hooks/
+│   └── useTimeDisplayMode.ts ← 时间显示模式管理（normal/flip/led）
+├── styles/
+│   ├── flip-clock.css  ← 【已废弃】旧翻牌样式（已被 flipclock 库替代）
+│   └── led-display.css ← LED 显示样式
 └── public/
     └── index.html      ← HTML meta
 ```

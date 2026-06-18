@@ -153,6 +153,29 @@
 - [ ] 功能：开始模拟、试播、番茄钟、配置管理
 - [ ] 时间线折叠
 
+---
+
+## Phase 14: Flipclock 样式集成与 UI 优化 ✅
+
+### 14.1 集成 flipclock 库
+- [x] 安装 `jquery: ^4.0.0` 和 `flipclock: ^1.0.1`
+- [x] 修改 `src/Component/TimeDisplay.tsx` 导入 flipclock CSS：`flipclock/themes/flipclock`
+
+### 14.2 改造 FlipClockDisplay 组件
+- [x] 使用 flipclock 官方 CSS 类名：`.flip-clock`, `.flip-clock-card`, `.flip-clock-divider`, `.flip-clock-card-item-inner`
+- [x] 实现双层翻转结构：`.before`（旧数字）+ `.active`（新数字）
+- [x] 翻转动画时正确显示黑色卡片背景（解决空白背景问题）
+
+### 14.3 UI 细节优化
+- [x] 翻牌钟居中对齐
+  - [x] 外层容器：`display: flex; justifyContent: center;`
+  - [x] 内层容器覆盖：`alignItems: center; justifyContent: center;`（覆盖 flipclock CSS 的 `flex-end`）
+- [x] 间距优化：翻牌钟上下 `margin: 16px 0`
+
+### 14.4 清理代码
+- [x] 删除旧的 `flip-clock.css` 导入
+- [x] 旧的 `src/styles/flip-clock.css` 文件废弃
+
 ## 验证方式
 
 每个 Phase 结束时：

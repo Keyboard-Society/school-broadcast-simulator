@@ -8,7 +8,9 @@ import NextEventCard from "./Card";
 import { PomodoroControls, PomodoroRings, usePomodoro } from "./Countdown";
 import TimelineCard from "./Timeline";
 import ConfigBar from "./ConfigBar";
+import { TimeDisplay } from "./TimeDisplay";
 import { NodeProps } from "../Node";
+import { TimeDisplayMode } from "../hooks/useTimeDisplayMode";
 import { getSchedule } from "../ScheduleManagement";
 
 const { Text } = Typography;
@@ -33,6 +35,7 @@ interface DashboardProps {
   playSound: () => void;
   stopSound: () => void;
   setVolume: (value: number) => void;
+  timeDisplayMode: TimeDisplayMode;
 }
 
 const Dashboard: React.FC<DashboardProps> = (p) => {
@@ -50,7 +53,9 @@ const Dashboard: React.FC<DashboardProps> = (p) => {
             <Text type="secondary" style={TXT_S}>
               <ClockCircleFilled style={{ marginRight: 6 }} />当前时间
             </Text>
-            <div className="time-display-lg" style={TIME_LG}>{p.currentTime}</div>
+            <div className="time-display-lg">
+              <TimeDisplay time={p.currentTime} mode={p.timeDisplayMode} size="lg" />
+            </div>
             <div style={DIVIDER} />
             <Text type="secondary" style={{ ...TXT_M, marginLeft: -6 }}>
               <HourglassOutlined style={{ marginRight: 6 }} />{endLabel}

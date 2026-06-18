@@ -2,13 +2,19 @@
 import React from "react";
 import { Layout, Button, Row, Col } from "antd";
 import { GithubOutlined, ExportOutlined } from "@ant-design/icons";
+import { TimeDisplayMode } from "../hooks/useTimeDisplayMode";
 
 const { Header } = Layout;
 
 type Mode = "light" | "dark";
 
-const HeaderComponent: React.FC<{ themeMode: Mode; toggleTheme: () => void }> = ({
-  themeMode, toggleTheme,
+const HeaderComponent: React.FC<{
+  themeMode: Mode;
+  toggleTheme: () => void;
+  timeDisplayMode: TimeDisplayMode;
+  toggleTimeDisplayMode: () => void;
+}> = ({
+  themeMode, toggleTheme, timeDisplayMode, toggleTimeDisplayMode,
 }) => {
   return (
     <Header className={`headerStyle ${themeMode === "dark" ? "header-dark" : ""}`}>
@@ -18,6 +24,20 @@ const HeaderComponent: React.FC<{ themeMode: Mode; toggleTheme: () => void }> = 
         </Col>
 
         <Col flex="none" style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          {/* 时间显示模式切换 */}
+          <Button
+            type="text"
+            size="small"
+            icon={null}
+            onClick={toggleTimeDisplayMode}
+            style={{ fontSize: 16, color: "inherit" }}
+            title={`当前时间显示模式: ${timeDisplayMode}`}
+          >
+            {timeDisplayMode === "normal" && "🔢"}
+            {timeDisplayMode === "flip" && "🎫"}
+            {timeDisplayMode === "led" && "📺"}
+          </Button>
+
           {/* 日夜切换 */}
           <Button
             type="text"
