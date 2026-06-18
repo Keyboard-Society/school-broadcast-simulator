@@ -4,7 +4,7 @@ import Markdown from "react-markdown";
 
 import SoundPlayer from "../SoundPlayer";
 import Card from "./Card";
-import CountdownComponent from "./Countdown";
+import { usePomodoro, PomodoroControls, PomodoroRings } from "./Countdown";
 import { NodeProps } from "../Node";
 import { getSchedule } from "../ScheduleManagement";
 
@@ -77,7 +77,15 @@ const MainContent: React.FC<MainContentProps> = ({
           stopSound={stopSound}
           setVolume={setVolume}
         />
-        <CountdownComponent />
+        {(() => {
+          const hook = usePomodoro();
+          return (
+            <>
+              <PomodoroControls hook={hook} />
+              <PomodoroRings data={hook.data} />
+            </>
+          );
+        })()}
       </Col>
       <Col span={6}></Col>
     </Row>

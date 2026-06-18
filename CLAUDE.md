@@ -37,6 +37,8 @@ dev-logs/YYYY-MM-DD.md
 4. **不改业务逻辑** — 本次是纯视觉改造
 5. **保留 antd** — 通过 ConfigProvider 定制主题，不替换 UI 库
 6. **CSS 修改先加后删** — 新样式生效后再清理旧代码
+7. **同步更新文档** — 每个 Phase 结束后更新 `docs/implementation-plan.md` 和 `dev-logs/YYYY-MM-DD.md`
+8. **废弃文件保留** — `Sider.tsx` / `MainContent.tsx` 不再使用但保留在原处，不删除
 
 ## 关键源码索引
 
@@ -44,17 +46,19 @@ dev-logs/YYYY-MM-DD.md
 src/
 ├── index.tsx           ← 入口，挂载 ConfigProvider
 ├── index.css           ← 全局样式（body 背景等）
-├── App.tsx             ← 顶层布局，不改逻辑
-├── App.css             ← 布局样式（Header/Sider/Content/Footer）
-├── theme.ts            ← 【新建】主题 Token
+├── App.tsx             ← 顶层布局 (div.appRoot > Header + Dashboard + Footer)
+├── App.css             ← 布局样式 + 响应式 (@media 768px)
+├── theme.ts            ← 主题 Token（Apple 风格 ConfigProvider）
 ├── Component/
-│   ├── Header.tsx      ← 顶部栏
-│   ├── Footer.tsx      ← 底部栏
-│   ├── Sider.tsx       ← 左侧配置面板
-│   ├── MainContent.tsx ← 中央内容区
-│   ├── Card.tsx        ← 下一个事件卡片
-│   ├── Countdown.tsx   ← 番茄钟
-│   └── Timeline.tsx    ← 时间线
+│   ├── Header.tsx      ← 顶部栏（毛玻璃白底，桌面52px/移动端48px）
+│   ├── Footer.tsx      ← 底部栏（浅灰底）
+│   ├── Dashboard.tsx   ← 【核心】卡片网格布局容器（响应式2/1列）
+│   ├── Card.tsx        ← 下一个事件卡片（试播+音量）
+│   ├── Countdown.tsx   ← 番茄钟复合组件（usePomodoro hook + Controls + Rings）
+│   ├── Timeline.tsx    ← 全天时间线
+│   ├── ConfigBar.tsx   ← 【新建】配置管理栏（下载/上传/重置）
+│   ├── Sider.tsx       ← 【已废弃，本次改造不再使用】
+│   └── MainContent.tsx ← 【已废弃，本次改造不再使用】
 └── public/
     └── index.html      ← HTML meta
 ```

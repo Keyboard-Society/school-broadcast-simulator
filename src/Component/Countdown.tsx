@@ -1,252 +1,189 @@
-// src/Timeline.tsx
-import {
-  Button,
-  Card,
-  Descriptions,
-  Divider,
-  Input,
-  InputNumber,
-  InputRef,
-  Progress,
-  ProgressProps,
-  Row,
-  Select,
-  Slider,
-  Space,
-  Typography,
-} from "antd";
+// src/Component/Countdown.tsx — 番茄钟
+// 导出: usePomodoro hook / PomodoroControls / PomodoroRings
+
 import React, { useEffect, useRef, useState } from "react";
-// import rehypeHighlight from 'rehype-highlight'
+import {
+  Button, Divider, Input, InputNumber, InputRef,
+  Progress, ProgressProps, Select, Slider, Space, Typography,
+} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import SoundPlayer from "../SoundPlayer";
 import { MP3List, getRandomMP3 } from "../ConstantStore";
 
-const { Text, Link } = Typography;
+const { Text } = Typography;
+const RANDOM = "Random(随机音乐)";
+const COLORS: ProgressProps["strokeColor"] = { "0%": "#0071E3", "100%": "#34C759" };
+const PRESETS = [0.5, 1, 2, 3, 5, 15, 25, 30];
 
+/* ── 类型 ── */
 export interface CountdownProps {
   startTime: number;
   countDownMinute: number;
+  countDownSeconds: number;
   mp3: string;
-  denominator: number;
   numerator: number;
   percent: number;
   isPlayed: boolean;
 }
 
-const twoColors: ProgressProps["strokeColor"] = {
-  "0%": "#0071E3",
-  "100%": "#34C759",
-};
+/* ── 共享 Hook ── */
+export function usePomodoro() {
+  const playerRef = useRef<SoundPlayer>(null);
+  const [minutes, setMinutes] = useState(20);
+  const [sound, setSound] = useState(RANDOM);
+  const [data, setData] = useState<CountdownProps[]>([]);
 
-const RandomStr = "Random(随机音乐)";
-
-interface CountdownComponentProps {}
-
-let index = 0;
-const CountdownComponent: React.FC<CountdownComponentProps> = ({}) => {
-  const countdownType = [0.5, 1, 2, 3, 5, 15, 25, 30];
-  const soundPlayerRef = useRef<SoundPlayer>(null);
-  const [countdownValue, setCountdownValue] = useState<number>(20);
-  const [items, setItems] = useState([RandomStr].concat(MP3List));
-  const [soundSource, setSoundSource] = useState(RandomStr);
-
-  const [countdownData, setCountdownData] = useState<CountdownProps[]>([]);
-  const inputRef = useRef<InputRef>(null);
-
-  const playSoundInSoundPlayer = (soundSource: string) => {
-    stopSoundInSoundPlayer(); // 停止先前的声音
-    if (soundPlayerRef.current) {
-      soundPlayerRef.current.playSound(
-        soundSource == RandomStr ? getRandomMP3() : soundSource,
-        1
-      );
-    }
+  const play = (src?: string) => {
+    playerRef.current?.stopSound();
+    const mp3 = (!src || src === "Random") ? getRandomMP3() : src;
+    playerRef.current?.playSound(mp3, 1);
   };
+  const stop = () => playerRef.current?.stopSound();
+  const setVol = (v: number) => { if (!isNaN(v)) playerRef.current?.setVolume(v); };
 
-  const stopSoundInSoundPlayer = () => {
-    if (soundPlayerRef.current) {
-      soundPlayerRef.current.stopSound();
-    }
-  };
-
-  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSoundSource(event.target.value);
-  };
-
-  const addItem = (
-    e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
-  ) => {
-    e.preventDefault();
-    setItems([...items, soundSource || `New item ${index++}`]);
-    setSoundSource("");
-    setTimeout(() => {
-      inputRef.current?.focus();
-    }, 0);
-  };
-
-  const setSoundInSoundPlayerVolume = (value: number) => {
-    if (isNaN(value)) {
-      return;
-    }
-    if (soundPlayerRef.current) {
-      soundPlayerRef.current.setVolume(value);
-    }
-  };
-
-  const Countdown = (value: number) => {
-    var startTime = new Date().getTime() / 1000;
-
-    // countdownData
-    var data: CountdownProps = {
-      startTime: startTime,
-      countDownMinute: value,
-      mp3: soundSource == RandomStr ? getRandomMP3() : soundSource,
-      numerator: 0,
-      denominator: value * 60,
-      percent: 0,
-      isPlayed: false,
-    };
-
-    setCountdownData((prevData) => [...prevData, data]);
-    return;
+  const add = (m: number) => {
+    const src = sound === RANDOM ? getRandomMP3() : sound;
+    setData(prev => [...prev, {
+      startTime: Date.now() / 1000,
+      countDownMinute: m,
+      countDownSeconds: m * 60,
+      mp3: src,
+      numerator: 0, percent: 0, isPlayed: false,
+    }]);
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCountdownData((prevData) => {
-        const currentSeconds = new Date().getTime() / 1000;
-        // console.log(prevData);
-        return prevData
-          .map((data) => {
-            if (data.percent == 100) {
-              playSoundInSoundPlayer(data.mp3);
-              data.isPlayed = true;
-            }
-            const numerator = Math.round(currentSeconds - data.startTime);
-            const percent =
-              Math.round((numerator / data.denominator) * 1000) / 10;
-
-            const updatedData = {
-              ...data,
-              numerator,
-              percent: percent > 100 ? 100 : percent,
-            };
-            return updatedData;
-          })
-          .filter((data) => !data.isPlayed); // 过滤掉 percent 不满足条件的数据
-      });
+    const t = setInterval(() => {
+      const now = Date.now() / 1000;
+      setData(prev => prev.map(d => {
+        if (d.percent >= 100) {
+          if (!d.isPlayed) play(d.mp3);
+          return { ...d, percent: 100, isPlayed: true };
+        }
+        const n = Math.round(now - d.startTime);
+        const pct = Math.min(Math.round(n / d.countDownSeconds * 1000) / 10, 100);
+        return { ...d, numerator: n, percent: pct };
+      }).filter(d => !d.isPlayed));
     }, 1000);
-
-    return () => clearInterval(interval);
+    return () => clearInterval(t);
   }, []);
 
+  return {
+    playerRef, minutes, setMinutes, sound, setSound,
+    data, add, play, stop, setVol,
+  };
+}
+
+/* ── 辅助样式 ── */
+const labelStyle: React.CSSProperties = { fontSize: 13, fontWeight: 500, marginBottom: 8, display: "block" };
+
+/* ── 控件面板 ── */
+export const PomodoroControls: React.FC<{
+  hook: ReturnType<typeof usePomodoro>;
+}> = ({ hook: p }) => {
+  const [items, setItems] = useState([RANDOM].concat(MP3List));
+  const [inputVal, setInputVal] = useState(RANDOM);
+  const inputRef = useRef<InputRef>(null);
+
   return (
-    <Card title="🍅自定义番茄时间">
-      <SoundPlayer ref={soundPlayerRef} audioSrc="default.mp3" playCount={1} />
-      <Descriptions bordered column={1}>
-        <Descriptions.Item label="默认番茄钟">
-          {countdownType.map((countdownValue) => (
-            <Button
-              key={countdownValue}
-              onClick={() => {
-                Countdown(countdownValue);
-              }}
-            >
-              {countdownValue}
+    <div>
+      <SoundPlayer ref={p.playerRef} audioSrc="default.mp3" playCount={1} />
+
+      {/* 预设 */}
+      <div style={{ marginBottom: 16 }}>
+        <Text type="secondary" style={labelStyle}>预设时长</Text>
+        <Space wrap size={[8, 8]}>
+          {PRESETS.map(m => (
+            <Button key={m} size="middle" onClick={() => p.add(m)} style={{ borderRadius: 10 }}>
+              {m} 分钟
             </Button>
           ))}
-          <Text> 分钟</Text>
-        </Descriptions.Item>
-        <Descriptions.Item label="自定义时间">
-          <Space direction="horizontal">
-            <InputNumber
-              placeholder="倒计时(分钟)"
-              size="large"
-              // changeOnWheel
-              value={countdownValue}
-              defaultValue={20}
-              onChange={(value) => setCountdownValue(value as number)}
-            />
-            <Button
-              id="startButton"
-              type="primary"
-              onClick={() => Countdown(countdownValue)}
-            >
-              开始倒计时
-            </Button>
-          </Space>
-        </Descriptions.Item>
-        <Descriptions.Item label="播放声音 ">
-          <Select
-            style={{ width: "100%", maxWidth: 300 }}
-            defaultValue={soundSource}
-            onChange={(value) => setSoundSource(value)}
-            dropdownRender={(menu) => (
-              <>
-                {menu}
-                <Divider style={{ margin: "8px 0" }} />
-                <Space style={{ padding: "0 8px 4px" }}>
-                  <Input
-                    placeholder="Please enter item"
-                    ref={inputRef}
-                    value={soundSource}
-                    onChange={onNameChange}
-                    onKeyDown={(e) => e.stopPropagation()}
-                  />
-                  <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
-                    Add item
-                  </Button>
-                </Space>
-              </>
-            )}
-            options={items.map((item) => ({ label: item, value: item }))}
-          />
-        </Descriptions.Item>
-        <Descriptions.Item label="试播 ">
-          <Button
-            id="startButton"
-            type="primary"
-            onClick={() => {
-              playSoundInSoundPlayer(soundSource);
-            }}
-          >
-            试播铃声
+        </Space>
+      </div>
+
+      {/* 自定义 */}
+      <div style={{ marginBottom: 16 }}>
+        <Text type="secondary" style={labelStyle}>自定义时间</Text>
+        <Space.Compact style={{ width: "100%" }}>
+          <InputNumber style={{ width: "100%" }} placeholder="分钟" size="large"
+            value={p.minutes} min={0.5} max={120} step={1}
+            onChange={v => p.setMinutes(v as number)} />
+          <Button type="primary" size="large" onClick={() => p.add(p.minutes)}>
+            开始倒计时
           </Button>
-          <Button onClick={stopSoundInSoundPlayer}>停止铃声</Button>
-        </Descriptions.Item>
-        <Descriptions.Item label="倒计时音量 ">
-          <Slider
-            defaultValue={30}
-            tooltip={{}}
-            min={0}
-            max={1}
-            step={0.01}
-            onChange={setSoundInSoundPlayerVolume}
-          />
-        </Descriptions.Item>
-        <Row id="clockSaver">
-          {countdownData.map((data) => (
-            <Space
-              direction="vertical"
-              align="center"
-              style={{ border: "0.1px solid #d9d9d9", padding: "1px" }}
-            >
-              <Progress
-                key={data.startTime}
-                strokeLinecap="butt"
-                type="circle"
-                size={60}
-                percent={data.percent}
-                strokeColor={twoColors}
-              />
-              <Text type="secondary">{data.denominator - data.numerator}s</Text>
-              <Text underline>{data.denominator}s</Text>
+        </Space.Compact>
+      </div>
+
+      {/* 铃声 */}
+      <div style={{ marginBottom: 12 }}>
+        <Text type="secondary" style={{ ...labelStyle, marginBottom: 4 }}>播放声音</Text>
+        <Select style={{ width: "100%" }} value={p.sound}
+          onChange={v => p.setSound(v)}
+          options={items.map(s => ({ label: s, value: s }))}
+          dropdownRender={menu => (<>
+            {menu}
+            <Divider style={{ margin: "8px 0" }} />
+            <Space style={{ padding: "0 8px 4px" }}>
+              <Input placeholder="添加铃声" ref={inputRef} value={inputVal}
+                onChange={e => setInputVal(e.target.value)}
+                onKeyDown={e => e.stopPropagation()} />
+              <Button type="text" icon={<PlusOutlined />} onClick={e => {
+                e.preventDefault();
+                setItems(prev => [...prev, inputVal || `New ${items.length}`]);
+                setInputVal("");
+                setTimeout(() => inputRef.current?.focus(), 0);
+              }}>Add</Button>
             </Space>
-          ))}
-        </Row>
-      </Descriptions>
-    </Card>
+          </>)}
+        />
+      </div>
+
+      {/* 试播 + 音量 */}
+      <Space wrap size={[8, 8]}>
+        <Button onClick={() => p.play(p.sound)}>🔊 试播</Button>
+        <Button onClick={p.stop}>⏹ 停止</Button>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 140 }}>
+          <Text type="secondary" style={{ fontSize: 12, whiteSpace: "nowrap" }}>音量</Text>
+          <Slider style={{ flex: 1, margin: 0 }} defaultValue={0.3}
+            min={0} max={1} step={0.01} onChange={v => p.setVol(v)} />
+        </div>
+      </Space>
+    </div>
   );
 };
 
-export default CountdownComponent;
+/* ── 进度圈 ── */
+export const PomodoroRings: React.FC<{ data: CountdownProps[] }> = ({ data }) => {
+  if (!data.length) {
+    return (
+      <div style={{ textAlign: "center", padding: "40px 0", color: "#aeaeb2" }}>
+        <div style={{ fontSize: 48, marginBottom: 8 }}>⏱</div>
+        <Text type="secondary">点击左侧预设时长或自定义时间开始</Text>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
+      {data.map(d => {
+        const remaining = Math.max(0, d.countDownSeconds - d.numerator);
+        const mm = Math.floor(remaining / 60);
+        const ss = String(remaining % 60).padStart(2, "0");
+        return (
+          <div key={d.startTime} style={{
+            display: "flex", flexDirection: "column", alignItems: "center",
+            gap: 6, padding: "12px 16px", borderRadius: 16,
+            background: "#fafafa", minWidth: 80,
+          }}>
+            <Progress type="circle" size={72} percent={d.percent}
+              strokeLinecap="round" strokeColor={COLORS} trailColor="#f0f0f0"
+              format={() => `${mm}:${ss}`} />
+            <Text style={{ fontSize: 11, color: "#86868b", fontWeight: 500 }}>
+              {d.countDownMinute} min
+            </Text>
+          </div>
+        );
+      })}
+    </div>
+  );
+};

@@ -1,22 +1,26 @@
-// src/Component/Dashboard.tsx
+// src/Component/Dashboard.tsx — 卡片网格布局
 import React from "react";
 import { Row, Col, Card, Button, Typography, Space } from "antd";
-import {
-  ClockCircleFilled,
-  PlayCircleFilled,
-  SoundFilled,
-  SettingOutlined,
-} from "@ant-design/icons";
+import { ClockCircleFilled, PlayCircleFilled, HourglassOutlined, SettingOutlined } from "@ant-design/icons";
 
 import SoundPlayer from "../SoundPlayer";
 import NextEventCard from "./Card";
-import PomodoroCard from "./Countdown";
+import { PomodoroControls, PomodoroRings, usePomodoro } from "./Countdown";
 import TimelineCard from "./Timeline";
 import ConfigBar from "./ConfigBar";
 import { NodeProps } from "../Node";
 import { getSchedule } from "../ScheduleManagement";
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
+
+/* ── 样式常量 ── */
+const CARD: React.CSSProperties  = { borderRadius: 16, boxShadow: "0 2px 12px rgba(0,0,0,0.06)", border: "none", height: "100%" };
+const TXT_S: React.CSSProperties = { fontSize: 14, fontWeight: 500, letterSpacing: 1, display: "block", textTransform: "uppercase" };
+const TXT_M: React.CSSProperties = { fontSize: 14, fontWeight: 500, display: "block", marginBottom: 8 };
+const TIME_LG: React.CSSProperties = { fontSize: 48, fontWeight: 600, letterSpacing: "-1px", color: "#1d1d1f", fontVariantNumeric: "tabular-nums", lineHeight: 1.2 };
+const TIME_MD: React.CSSProperties = { fontSize: 36, fontWeight: 600, letterSpacing: "-0.5px", color: "#86868b", fontVariantNumeric: "tabular-nums", lineHeight: 1.3 };
+const DIVIDER: React.CSSProperties   = { height: 1, background: "#e5e5ea", margin: "20px 0" };
+const BTN: React.CSSProperties       = { height: 48, paddingLeft: 32, paddingRight: 32, fontSize: 16, fontWeight: 500 };
 
 interface DashboardProps {
   currentTime: string;
@@ -31,153 +35,69 @@ interface DashboardProps {
   setVolume: (value: number) => void;
 }
 
-const dashboardContainerStyle: React.CSSProperties = {
-  maxWidth: "960px",
-  margin: "0 auto",
-  padding: "32px 24px",
-};
+const Dashboard: React.FC<DashboardProps> = (p) => {
+  const pom = usePomodoro();
+  const endLabel = `${getSchedule().end_time} 下班/放学 · 倒计时`;
 
-const panelCardStyle: React.CSSProperties = {
-  borderRadius: 16,
-  boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-  border: "none",
-  height: "100%",
-};
-
-const timeDisplayLargeStyle: React.CSSProperties = {
-  fontSize: "48px",
-  fontWeight: 600,
-  letterSpacing: "-1px",
-  color: "#1d1d1f",
-  fontVariantNumeric: "tabular-nums",
-  lineHeight: 1.2,
-};
-
-const timeDisplayMediumStyle: React.CSSProperties = {
-  fontSize: "36px",
-  fontWeight: 600,
-  letterSpacing: "-0.5px",
-  color: "#86868b",
-  fontVariantNumeric: "tabular-nums",
-  lineHeight: 1.3,
-};
-
-const Dashboard: React.FC<DashboardProps> = ({
-  currentTime,
-  countdownTime,
-  soundPlayerRef,
-  startButtonRef,
-  nextNode,
-  nodes,
-  startSystem,
-  playSound,
-  stopSound,
-  setVolume,
-}) => {
   return (
-    <div style={dashboardContainerStyle} className="dashboard-container">
-      {/* 隐藏的全局 SoundPlayer */}
-      <SoundPlayer ref={soundPlayerRef} audioSrc="default.mp3" playCount={1} />
+    <div className="dashboard-container" style={{ maxWidth: 960, margin: "0 auto", padding: "32px 24px" }}>
+      <SoundPlayer ref={p.soundPlayerRef} audioSrc="default.mp3" playCount={1} />
 
       <Row gutter={[20, 20]}>
-        {/* ── 左上：当前时间 + 开始按钮 ── */}
+        {/* ─ 第一行左: 时间+倒计时+开始 ─ */}
         <Col xs={24} sm={12}>
-          <Card style={panelCardStyle} bodyStyle={{ padding: "28px 24px", textAlign: "center" }}>
-            <Text
-              type="secondary"
-              style={{
-                fontSize: "14px",
-                fontWeight: 500,
-                textTransform: "uppercase",
-                letterSpacing: "1px",
-                marginBottom: "12px",
-                display: "block",
-              }}
-            >
-              <ClockCircleFilled style={{ marginRight: "6px" }} />
-              当前时间
+          <Card style={CARD} bodyStyle={{ padding: "28px 24px", textAlign: "center" }}>
+            <Text type="secondary" style={TXT_S}>
+              <ClockCircleFilled style={{ marginRight: 6 }} />当前时间
             </Text>
-            <div style={timeDisplayLargeStyle} className="time-display-lg">{currentTime}</div>
-            <Button
-              ref={startButtonRef}
-              type="primary"
-              size="large"
-              icon={<PlayCircleFilled />}
-              onClick={startSystem}
-              style={{
-                marginTop: "20px",
-                height: "48px",
-                paddingLeft: "32px",
-                paddingRight: "32px",
-                fontSize: "16px",
-                fontWeight: 500,
-              }}
-            >
+            <div className="time-display-lg" style={TIME_LG}>{p.currentTime}</div>
+            <div style={DIVIDER} />
+            <Text type="secondary" style={{ ...TXT_M, marginLeft: -6 }}>
+              <HourglassOutlined style={{ marginRight: 6 }} />{endLabel}
+            </Text>
+            <div className="time-display-md" style={{ ...TIME_MD, marginBottom: 20 }}>{p.countdownTime}</div>
+            <Button ref={p.startButtonRef} type="primary" size="large"
+              icon={<PlayCircleFilled />} onClick={p.startSystem} style={BTN}>
               开始模拟
             </Button>
           </Card>
         </Col>
 
-        {/* ── 右上：下一个事件（自身带 Card，不包外层） ── */}
+        {/* ─ 第一行右: 下一个事件 ─ */}
         <Col xs={24} sm={12}>
-          <NextEventCard
-            node={nextNode}
-            playSound={playSound}
-            stopSound={stopSound}
-            setVolume={setVolume}
-          />
+          <NextEventCard node={p.nextNode} playSound={p.playSound}
+            stopSound={p.stopSound} setVolume={p.setVolume} />
         </Col>
 
-        {/* ── 左下：放学倒计时 ── */}
+        {/* ─ 第二行左: 番茄钟控件 ─ */}
         <Col xs={24} sm={12}>
-          <Card style={panelCardStyle} bodyStyle={{ padding: "28px 24px", textAlign: "center" }}>
-            <Text
-              type="secondary"
-              style={{
-                fontSize: "14px",
-                fontWeight: 500,
-                letterSpacing: "0.5px",
-                marginBottom: "12px",
-                display: "block",
-              }}
-            >
-              {getSchedule().end_time} 下班/放学 · 倒计时
-            </Text>
-            <div style={timeDisplayMediumStyle} className="time-display-md">
-              {countdownTime}
-            </div>
+          <Card style={CARD} bodyStyle={{ padding: 24 }}
+            title={<span style={{ fontSize: 16, fontWeight: 600 }}>🍅 番茄钟</span>}>
+            <PomodoroControls hook={pom} />
           </Card>
         </Col>
 
-        {/* ── 右下：番茄钟（自身带 Card，不包外层） ── */}
+        {/* ─ 第二行右: 番茄进度圈 ─ */}
         <Col xs={24} sm={12}>
-          <PomodoroCard />
-        </Col>
-
-        {/* ── 底部通栏：全天时间线 ── */}
-        <Col xs={24}>
-          <Card style={panelCardStyle} bodyStyle={{ padding: "16px 24px" }} title="📋 全天时间线">
-            <TimelineCard node={nextNode} nodes={nodes} />
+          <Card style={CARD} bodyStyle={{ padding: 24 }}
+            title={<span style={{ fontSize: 16, fontWeight: 600 }}>🍅 进行中</span>}>
+            <PomodoroRings data={pom.data} />
           </Card>
         </Col>
 
-        {/* ── 底部：配置管理 ── */}
+        {/* ─ 第三行: 时间线 ─ */}
         <Col xs={24}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-              gap: "12px",
-              padding: "8px 24px",
-            }}
-          >
+          <Card style={CARD} bodyStyle={{ padding: "16px 24px" }} title="📋 全天时间线">
+            <TimelineCard node={p.nextNode} nodes={p.nodes} />
+          </Card>
+        </Col>
+
+        {/* ─ 底部: 配置 ─ */}
+        <Col xs={24}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, padding: "8px 24px" }}>
             <Space>
               <SettingOutlined style={{ color: "#86868b" }} />
-              <Text type="secondary" style={{ fontSize: "13px" }}>
-                配置管理
-              </Text>
+              <Text type="secondary" style={{ fontSize: 13 }}>配置管理</Text>
             </Space>
             <ConfigBar />
           </div>
