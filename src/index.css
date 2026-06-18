@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: #f5f5f7;
+  background-color: var(--bg-root, #f5f5f7);
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
     'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   -webkit-font-smoothing: antialiased;

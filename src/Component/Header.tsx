@@ -5,34 +5,36 @@ import { GithubOutlined, ExportOutlined } from "@ant-design/icons";
 
 const { Header } = Layout;
 
-const HeaderComponent: React.FC = () => {
+type Mode = "light" | "dark";
+
+const HeaderComponent: React.FC<{ themeMode: Mode; toggleTheme: () => void }> = ({
+  themeMode, toggleTheme,
+}) => {
   return (
-    <Header className="headerStyle">
+    <Header className={`headerStyle ${themeMode === "dark" ? "header-dark" : ""}`}>
       <Row align="middle" style={{ width: "100%", height: "100%" }}>
         <Col flex="auto">
-          <span
-            style={{
-              fontSize: "1.15em",
-              fontWeight: 600,
-              color: "#1d1d1f",
-            }}
-          >
-            在校模拟器
-          </span>
+          <span className="header-title">在校模拟器</span>
         </Col>
 
-        <Col flex="none">
+        <Col flex="none" style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          {/* 日夜切换 */}
+          <Button
+            type="text"
+            size="small"
+            icon={null}
+            onClick={toggleTheme}
+            style={{ fontSize: 16, color: "inherit" }}
+          >
+            {themeMode === "dark" ? "☀️" : "🌙"}
+          </Button>
+
+          {/* GitHub */}
           <a
             href="https://github.com/Keyboard-Society/school-broadcast-simulator"
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              color: "#0071E3",
-              fontSize: "0.9em",
-              display: "flex",
-              alignItems: "center",
-              gap: "4px",
-            }}
+            className="header-github-link"
           >
             <GithubOutlined />
             <span className="header-link-text">源码</span>

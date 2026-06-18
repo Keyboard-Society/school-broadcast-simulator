@@ -19,7 +19,12 @@ type AppState = {
   nodes: NodeProps[];
 };
 
-const App: React.FC = () => {
+type Mode = "light" | "dark";
+
+const App: React.FC<{ themeMode: Mode; toggleTheme: () => void }> = ({
+  themeMode,
+  toggleTheme,
+}) => {
   const soundPlayerRef = useRef<SoundPlayer>(null);
   const [currentTime, setCurrentTime] = useState<string>(
     getNowString(getNow())
@@ -100,7 +105,7 @@ const App: React.FC = () => {
 
   return (
     <div className="appRoot">
-      <Header />
+      <Header themeMode={themeMode} toggleTheme={toggleTheme} />
       <Dashboard
         currentTime={currentTime}
         countdownTime={countdownTime}

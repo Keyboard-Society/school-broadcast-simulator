@@ -40,7 +40,7 @@ const Dashboard: React.FC<DashboardProps> = (p) => {
   const endLabel = `${getSchedule().end_time} 下班/放学 · 倒计时`;
 
   return (
-    <div className="dashboard-container" style={{ maxWidth: 960, margin: "0 auto", padding: "32px 24px" }}>
+    <div className="dashboard-container">
       <SoundPlayer ref={p.soundPlayerRef} audioSrc="default.mp3" playCount={1} />
 
       <Row gutter={[20, 20]}>

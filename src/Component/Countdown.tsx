@@ -21,6 +21,7 @@ export interface CountdownProps {
   countDownMinute: number;
   countDownSeconds: number;
   mp3: string;
+  note: string;             // 备注
   numerator: number;
   percent: number;
   isPlayed: boolean;
@@ -31,6 +32,7 @@ export function usePomodoro() {
   const playerRef = useRef<SoundPlayer>(null);
   const [minutes, setMinutes] = useState(20);
   const [sound, setSound] = useState(RANDOM);
+  const [note, setNote] = useState("");      // 备注输入
   const [data, setData] = useState<CountdownProps[]>([]);
 
   const play = (src?: string) => {
@@ -48,6 +50,7 @@ export function usePomodoro() {
       countDownMinute: m,
       countDownSeconds: m * 60,
       mp3: src,
+      note: note.trim(),
       numerator: 0, percent: 0, isPlayed: false,
     }]);
   };
@@ -69,7 +72,7 @@ export function usePomodoro() {
   }, []);
 
   return {
-    playerRef, minutes, setMinutes, sound, setSound,
+    playerRef, minutes, setMinutes, sound, setSound, note, setNote,
     data, add, play, stop, setVol,
   };
 }
@@ -138,6 +141,14 @@ export const PomodoroControls: React.FC<{
         />
       </div>
 
+      {/* 备注 */}
+      <div style={{ marginBottom: 12 }}>
+        <Text type="secondary" style={{ ...labelStyle, marginBottom: 4 }}>备注</Text>
+        <Input placeholder="可选" value={p.note} allowClear
+          onChange={e => p.setNote(e.target.value)}
+          onPressEnter={() => { p.add(p.minutes); p.setNote(""); }} />
+      </div>
+
       {/* 试播 + 音量 */}
       <Space wrap size={[8, 8]}>
         <Button onClick={() => p.play(p.sound)}>🔊 试播</Button>
@@ -181,6 +192,12 @@ export const PomodoroRings: React.FC<{ data: CountdownProps[] }> = ({ data }) =>
             <Text style={{ fontSize: 11, color: "#86868b", fontWeight: 500 }}>
               {d.countDownMinute} min
             </Text>
+            {d.note && (
+              <Text style={{ fontSize: 11, color: "#aeaeb2", maxWidth: 90 }}
+                ellipsis={{ tooltip: d.note }}>
+                {d.note}
+              </Text>
+            )}
           </div>
         );
       })}
