@@ -1,38 +1,204 @@
-.App {
-  text-align: center;
+/* App.css — Layout styles + 亮/暗 */
+
+/* ── 亮色变量（默认） ── */
+:root {
+  --bg-root: #f5f5f7;
+  --header-bg: rgba(255, 255, 255, 0.72);
+  --header-color: #1d1d1f;
+  --header-border: #e5e5ea;
+  --footer-bg: #f5f5f7;
+  --footer-color: #86868b;
+  --footer-border: #e5e5ea;
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* ── 暗色变量 ── */
+.dark {
+  --bg-root: #000000;
+  --header-bg: rgba(28, 28, 30, 0.8);
+  --header-color: #f5f5f7;
+  --header-border: #3a3a3c;
+  --footer-bg: #000000;
+  --footer-color: #98989d;
+  --footer-border: #3a3a3c;
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.4);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+/* ── 根容器 ── */
+.appRoot {
   min-height: 100vh;
+  background-color: var(--bg-root);
+}
+
+/* ── Header ── */
+.headerStyle {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--header-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  color: var(--header-color);
+  height: 52px;
+  padding: 0 50px;
+  line-height: 52px;
+  border-bottom: 1px solid var(--header-border);
+  transition: background 0.3s, color 0.3s;
+}
+
+.header-title {
+  font-size: 1.15em;
+  font-weight: 600;
+}
+
+.header-github-link {
+  color: #0071E3;
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Header 侧边栏模式 ── */
+.header-vertical {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 56px;
+  background: var(--header-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-right: 1px solid var(--header-border);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  padding-bottom: env(safe-area-inset-bottom, 40px);
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.header-vertical-top {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.header-vertical-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+/* ── Header 隐藏模式触发按钮 ── */
+.header-hidden-trigger {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  width: 40px;
+  height: 40px;
+  background: var(--header-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--header-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  cursor: pointer;
+  z-index: 99;
+  transition: all 0.2s ease;
+  color: var(--header-color);
 }
 
-.App-link {
-  color: #61dafb;
+.header-hidden-trigger:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* ── Dashboard ── */
+.dashboard-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* ── Dashboard 左侧偏移（侧边栏模式） ── */
+.dashboard-with-vertical-sidebar {
+  margin-left: 56px;
+}
+
+/* ── Footer ── */
+.footerStyle {
+  background-color: var(--footer-bg);
+  text-align: center;
+  color: var(--footer-color);
+  border-top: 1px solid var(--footer-border);
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ── 响应式 ── */
+@media (max-width: 768px) {
+  .headerStyle {
+    height: 48px;
+    padding: 0 16px;
+    line-height: 48px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .dashboard-container {
+    padding: 16px 12px;
+    max-width: 100%;
+  }
+
+  .header-link-text {
+    display: none;
+  }
+
+  /* 移动端完全隐藏快速定位按钮区域 */
+  .header-quick-nav {
+    display: none !important;
+  }
+
+  /* 移动端隐藏标题文字 */
+  .header-title {
+    font-size: 0 !important;
+  }
+
+  /* 但保留 Logo 图标 */
+  .header-title .anticon {
+    font-size: 20px !important;
+  }
+
+  /* 移动端翻页钟调整 */
+  .flip-clock {
+    --font-size: 36px !important;
+    --width: 0.85em !important;
+    --height: 1.2em !important;
+    font-size: var(--font-size) !important;
+    gap: 5px !important;
+  }
+
+  .time-display-lg {
+    font-size: 36px !important;
+  }
+
+  .time-display-md {
+    font-size: 28px !important;
+  }
+
+  /* 移动端侧边栏宽度调整 */
+  .header-vertical {
+    width: 52px;
+  }
+
+  .dashboard-with-vertical-sidebar {
+    margin-left: 52px;
   }
 }

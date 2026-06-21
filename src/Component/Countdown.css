@@ -1,0 +1,21 @@
+/* src/Component/Countdown.css — 番茄钟样式 */
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 2px rgba(82, 196, 26, 0.2), 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 6px rgba(82, 196, 26, 0.4), 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.pomodoro-ring-completed {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.pomodoro-ring-completed:hover {
+  transform: scale(1.08);
+}

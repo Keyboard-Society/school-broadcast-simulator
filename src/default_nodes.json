@@ -1,0 +1,187 @@
+{
+  "name": "夏季作息时间表",
+  "describe": "(5月1日至9月30日执行)",
+  "end_time": "18:30",
+  "nodes": [
+    {
+      "name": "起床",
+      "start_time": "06:10",
+      "mp3": "default.mp3",
+      "note": "- 起床 | 打工人还能再睡一会",
+      "color": null
+    },
+    {
+      "name": "早自习 预铃",
+      "start_time": "07:30",
+      "mp3": "default.mp3",
+      "note": "- 喝水小助手: 喝！",
+      "color": null
+    },
+    { "name": "早自习 开始", "start_time": "07:40" },
+    { "name": "早自习 结束", "start_time": "08:00" },
+    {
+      "name": "第一节课 预铃",
+      "start_time": "08:03",
+      "mp3": "default.mp3",
+      "note": "第一节课 预铃 开始啦",
+      "color": null
+    },
+    {
+      "name": "第一节课 开始",
+      "start_time": "08:05",
+      "note": "- 喝水小助手: 喝！"
+    },
+    { "name": "第一节课 结束", "start_time": "08:50" },
+    {
+      "name": "第二节课 预铃",
+      "start_time": "08:58",
+      "mp3": "default.mp3",
+      "note": "第二节课 预铃 开始啦",
+      "color": null
+    },
+    { "name": "第二节课 开始", "start_time": "09:00" },
+    {
+      "name": "第二节课 结束",
+      "start_time": "09:45",
+      "note": "- 喝水小助手:☕饮料时间"
+    },
+    {
+      "name": "大课间 开始",
+      "start_time": "09:45",
+      "note": "- 坐久了起来活动一下吧⚽",
+      "mp3": "大课间操跑步音乐.mp3"
+    },
+    {
+      "name": "大课间 结束",
+      "start_time": "10:15",
+      "note": "- 喝水小助手: 保持水分平衡。"
+    },
+    {
+      "name": "第三节课 预铃",
+      "start_time": "10:13",
+      "mp3": "default.mp3",
+      "note": "第三节课 预铃 开始啦",
+      "color": null
+    },
+    { "name": "第三节课 开始", "start_time": "10:15" },
+    { "name": "第三节课 结束", "start_time": "11:00" },
+    {
+      "name": "眼保键操 预铃",
+      "start_time": "11:08",
+      "mp3": "default.mp3",
+      "note": "- 喝水小助手: 水",
+      "color": null
+    },
+    {
+      "name": "眼保键操 开始",
+      "start_time": "11:10",
+      "mp3": "眼保健操.mp3",
+      "note": "- 👀打工人也要保护好眼睛哦"
+    },
+    {
+      "name": "眼保键操 结束",
+      "start_time": "11:15",
+      "note": "- 🍕可以思考中午吃什么了"
+    },
+    {
+      "name": "第四节课 开始",
+      "start_time": "11:15",
+      "note": "- 🎁记得点外卖"
+    },
+    {
+      "name": "第四节课 结束",
+      "start_time": "12:00",
+      "note": "- 🍚干饭不积极，思想有问"
+    },
+    { "name": "午休或自习 开始", "start_time": "12:40" },
+    {
+      "name": "午休或自 习 结束",
+      "start_time": "14:10",
+      "note": "- ☕饮料时间*2"
+    },
+    {
+      "name": "第五节课 预铃",
+      "start_time": "14:28",
+      "mp3": "default.mp3",
+      "note": "- 放空一下，准备全身心投入产出！",
+      "color": null
+    },
+    { "name": "第五节课 开始", "start_time": "14:30", "note": "- 开始专注⏰" },
+    { "name": "第五节课 结束", "start_time": "15:15" },
+    {
+      "name": "眼保键操 预铃",
+      "start_time": "15:23",
+      "mp3": "default.mp3",
+      "note": "眼保键操 预铃 开始啦",
+      "color": null
+    },
+    {
+      "name": "眼保键操 开始",
+      "start_time": "15:25",
+      "mp3": "眼保健操.mp3",
+      "note": "打工人也要保护好眼睛哦"
+    },
+    {
+      "name": "眼保键操 结束",
+      "start_time": "15:30",
+      "note": "- 喝水小助手: 为下午的学习工作注入新的活力。"
+    },
+    { "name": "第六节课 开始", "start_time": "15:30" },
+    { "name": "第六节课 结束", "start_time": "16:15", "note": "- 🍫零食时间" },
+    {
+      "name": "第七节课 预铃",
+      "start_time": "16:23",
+      "mp3": "default.mp3",
+      "note": "第七节课 预铃 开始啦",
+      "color": null
+    },
+    {
+      "name": "第七节课 开始",
+      "start_time": "16:25",
+      "note": "- 喝水小助手: 进行短暂的饮水休息。"
+    },
+    {
+      "name": "第七节课 结束",
+      "start_time": "17:10",
+      "note": "- 喝水小助手: 为晚上的活动做好准备。"
+    },
+    {
+      "name": "课外活动 开始",
+      "start_time": "17:20",
+      "note": "- 🍚是时候思考下晚上吃什么了。"
+    },
+    {
+      "name": "课外活动 结束",
+      "start_time": "18:05",
+      "note": "- 收拾东西+写日报，准备下班"
+    },
+    {
+      "name": "晚自习 预铃",
+      "start_time": "18:50",
+      "mp3": "default.mp3",
+      "note": "- 已经下班了，做点自己的事情吧",
+      "color": null
+    },
+    { "name": "晚自习 第一节 开始", "start_time": "19:00" },
+    {
+      "name": "晚自习 第一节 结束",
+      "start_time": "20:00",
+      "note": "- 明天早上吃什么呢？🍕"
+    },
+    { "name": "晚自习 第二节  开始", "start_time": "20:10" },
+    { "name": "晚自习 第二节 结束", "start_time": "21:10" },
+    { "name": "晚自习 第三节 开始", "start_time": "21:20" },
+    {
+      "name": "晚自习 第三节 结束",
+      "start_time": "22:00",
+      "note": "- 喝水小助手: 为睡前补充水分。"
+    },
+    {
+      "name": "就寝",
+      "start_time": "22:30",
+      "mp3": "default.mp3",
+      "note": "- 汤家凤: 你怎么睡得着的",
+      "color": null
+    }
+  ]
+}
